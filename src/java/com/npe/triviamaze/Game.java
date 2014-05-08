@@ -7,8 +7,7 @@ public class Game
 
     public Game()
     {
-        maze = new Maze();
-        player = new Player(maze.getStart());
+        this(1, 1);
     }
     
     public Game(int rows, int cols)
