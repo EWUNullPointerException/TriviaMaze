@@ -12,6 +12,7 @@ public class Program
     {
         Display display = new Display();
         shell = new Shell(display);
+        shell.setSize(361, 348);
         shell.setLayout(new FormLayout());
 
         init();
