@@ -1,8 +1,10 @@
-package com.npe.triviamaze;
+
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import com.npe.triviamaze.Game;
 
 public class GameTests
 {
