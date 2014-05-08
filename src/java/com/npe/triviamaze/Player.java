@@ -11,11 +11,11 @@ public class Player
 
     public Player(Location playerLocation)
     {
-        this.playerLocation = playerLocation;
+        this.playerLocation = new Location(playerLocation);
     }
 
     public Location getLocation()
     {
-        return playerLocation;
+        return new Location(playerLocation);
     }
 }

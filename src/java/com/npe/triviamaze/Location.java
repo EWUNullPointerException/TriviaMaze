@@ -9,6 +9,12 @@ public class Location
         this.row = row;
         this.col = col;
     }
+    
+    public Location(Location o)
+    {
+        this.row = o.row;
+        this.col = o.col;
+    }
 
     @Override
     public boolean equals(Object other)
