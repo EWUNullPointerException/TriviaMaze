@@ -1,40 +1,40 @@
 package com.npe.triviamaze;
 
-import javax.swing.*;
-import java.awt.Dimension;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.*;
 
 public class Program
 {
+    private static Shell shell;
+
     public static void main(String[] args)
     {
-        // Schedule a job for the event-dispatching thread:
-        // creating and showing this application's GUI.
-        javax.swing.SwingUtilities.invokeLater(new Runnable()
+        Display display = new Display();
+        shell = new Shell(display);
+        shell.setLayout(new FormLayout());
+
+        init();
+
+        shell.open();
+        // run the event loop as long as the window is open
+        while(!shell.isDisposed())
         {
-            public void run()
+            // read the next OS event queue and transfer it to a SWT event
+            if(!display.readAndDispatch())
             {
-                createAndShowGUI();
+                // if there are currently no other OS event to process
+                // sleep until the next OS event is available
+                display.sleep();
             }
-        });
+        }
+
+        // disposes all associated windows and their components
+        display.dispose();
     }
 
-    private static void createAndShowGUI()
+    private static void init()
     {
-        // Create and set up the window.
-        JFrame frame = new JFrame("HelloWorldSwing");
-        frame.setTitle("TriviaMaze");
-        frame.setSize(new Dimension(299, 302));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        JMenuBar mainMenu = new JMenuBar();
-        frame.setJMenuBar(mainMenu);
-        
-        JMenuItem mnuItmFile = new JMenuItem("File");
-        mnuItmFile.setMnemonic('F');
-        mainMenu.add(mnuItmFile);
 
-        // Display the window.
-        //frame.pack();
-        frame.setVisible(true);
     }
 }
