@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.npe.triviamaze.Game;
+import com.npe.triviamaze.game.Game;
 
 public class GameTests
 {

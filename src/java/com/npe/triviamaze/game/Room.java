@@ -1,4 +1,4 @@
-package com.npe.triviamaze;
+package com.npe.triviamaze.game;
 
 
 public class Room
@@ -8,12 +8,12 @@ public class Room
     private Door down;
     private Door left;
     
-    public Room()
+    Room()
     {
         //all doors do not exist
     }
     
-    public Room(Room up, Room right, Room down, Room left)
+    Room(Room up, Room right, Room down, Room left)
     {
         this.up = (up == null) ? new Door() : up.getDown();
         this.right = (right == null) ? new Door() : right.getLeft();

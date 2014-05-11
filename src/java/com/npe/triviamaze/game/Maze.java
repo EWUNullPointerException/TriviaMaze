@@ -1,4 +1,4 @@
-package com.npe.triviamaze;
+package com.npe.triviamaze.game;
 
 public class Maze
 {
@@ -6,12 +6,12 @@ public class Maze
     private Location goal;
     private Location start;
 
-    public Maze()
+    Maze()
     {
         this(1, 1);
     }
     
-    public Maze(int rows, int cols)
+    Maze(int rows, int cols)
     {
         //rooms array is padded by empty cells
         rooms = new Room[rows+2][cols+2];
