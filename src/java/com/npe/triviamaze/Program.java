@@ -1,21 +1,21 @@
 package com.npe.triviamaze;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+
+import com.npe.triviamaze.game.Game;
 
 public class Program
 {
-    private static final int WIDTH = 361;
-    private static final int HEIGHT = 348;
     private static Shell shell;
     private static Button btnExit;
     private static Button btnEndlessMode;
@@ -24,6 +24,7 @@ public class Program
     private static Button btnCustomQuestions;
     private static FormData fd_btnNewButton_1;
     private static FormData fd_btnEndlessMode;
+    private static Game userGame;
 
     public static void main(String[] args)
     {
@@ -91,7 +92,7 @@ public class Program
             public void widgetSelected(SelectionEvent e)
             {
                 // Generate a maze
-                Maze userMaze = new Maze();
+                userGame = new Game();
                 System.out.println("Maze generated");
             }
         });

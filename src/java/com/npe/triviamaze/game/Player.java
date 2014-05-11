@@ -1,15 +1,15 @@
-package com.npe.triviamaze;
+package com.npe.triviamaze.game;
 
 public class Player
 {
     private Location playerLocation;
 
-    public Player()
+    Player()
     {
         this.playerLocation = new Location(0, 0);
     }
 
-    public Player(Location playerLocation)
+    Player(Location playerLocation)
     {
         this.playerLocation = new Location(playerLocation);
     }

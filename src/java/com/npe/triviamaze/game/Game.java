@@ -1,4 +1,4 @@
-package com.npe.triviamaze;
+package com.npe.triviamaze.game;
 
 public class Game
 {
