@@ -13,6 +13,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
 import com.npe.triviamaze.game.Game;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 
 public class Program
 {
@@ -37,14 +39,16 @@ public class Program
         // This makes it almost impossible to set anything relative
         // to the size of the window so I've moved width and height
         // to finals
-        init();
+        // init();
         shell.setSize(418, 384);
         shell.setLayout(new FormLayout());
 
-        startButton();
-        endlessModeButton();
-        leaderBoardButton();
-        customQuestionsButton();
+       
+
+        // startButton();
+        // endlessModeButton();
+        // leaderBoardButton();
+        // customQuestionsButton();
 
         shell.open();
         // run the event loop as long as the window is open
@@ -134,7 +138,7 @@ public class Program
                 @Override
                 public void widgetSelected(SelectionEvent e)
                 {
-                    //Add custom questions to the database
+                    // Add custom questions to the database
                     System.out.println("Custom Questions in the database");
                 }
             });
