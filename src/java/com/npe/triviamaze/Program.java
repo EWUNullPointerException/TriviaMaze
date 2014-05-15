@@ -1,23 +1,23 @@
 package com.npe.triviamaze;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+
+import com.npe.triviamaze.game.Game;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 
 public class Program
 {
-    private static final int WIDTH = 361;
-    private static final int HEIGHT = 348;
     private static Shell shell;
     private static Button btnExit;
     private static Button btnEndlessMode;
@@ -26,6 +26,7 @@ public class Program
     private static Button btnCustomQuestions;
     private static FormData fd_btnNewButton_1;
     private static FormData fd_btnEndlessMode;
+    private static Game userGame;
 
     public static void main(String[] args)
     {
@@ -38,115 +39,16 @@ public class Program
         // This makes it almost impossible to set anything relative
         // to the size of the window so I've moved width and height
         // to finals
-        //init();
+        // init();
         shell.setSize(418, 384);
         shell.setLayout(new FormLayout());
-        Menu menu = new Menu(shell, SWT.BAR);
-        shell.setMenuBar(menu);
 
-        MenuItem mntmFile = new MenuItem(menu, SWT.CASCADE);
-        mntmFile.setText("Game");
+       
 
-        Menu menu_1 = new Menu(mntmFile);
-        mntmFile.setMenu(menu_1);
-
-        MenuItem mntmNewGame = new MenuItem(menu_1, SWT.NONE);
-        mntmNewGame.addSelectionListener(new SelectionAdapter()
-        {
-            private Game userGame;
-
-            @Override
-            public void widgetSelected(SelectionEvent e)
-            {
-                userGame = new Game();
-                System.out.println("Maze generated");
-            }
-        });
-        mntmNewGame.setText("Start Game");
-
-        MenuItem mntmEndlessMode = new MenuItem(menu_1, SWT.NONE);
-        mntmEndlessMode.addSelectionListener(new SelectionAdapter()
-        {
-            @Override
-            public void widgetSelected(SelectionEvent e)
-            {
-                // Begin endless mode here
-                System.out.println("Endless mode started");
-            }
-        });
-        mntmEndlessMode.setText("Endless Mode");
-
-        MenuItem mntmExit = new MenuItem(menu_1, SWT.NONE);
-        mntmExit.addSelectionListener(new SelectionAdapter()
-        {
-            @Override
-            public void widgetSelected(SelectionEvent e)
-            {
-                shell.dispose();
-            }
-        });
-        mntmExit.setText("Exit");
-
-        MenuItem mntmHelp = new MenuItem(menu, SWT.CASCADE);
-        mntmHelp.setText("Help");
-
-        Menu menu_2 = new Menu(mntmHelp);
-        mntmHelp.setMenu(menu_2);
-
-        MenuItem mntmHowToPlay = new MenuItem(menu_2, SWT.NONE);
-        mntmHowToPlay.addSelectionListener(new SelectionAdapter()
-        {
-            @Override
-            public void widgetSelected(SelectionEvent e)
-            {
-                System.out.println("How to play");
-            }
-        });
-        mntmHowToPlay.setText("How To Play");
-
-        MenuItem mntmAbout = new MenuItem(menu_2, SWT.NONE);
-        mntmAbout.addSelectionListener(new SelectionAdapter()
-        {
-            @Override
-            public void widgetSelected(SelectionEvent e)
-            {
-                System.out.println("About game");
-            }
-        });
-        mntmAbout.setText("About");
-
-        MenuItem mntmExtras = new MenuItem(menu, SWT.CASCADE);
-        mntmExtras.setText("Extras");
-
-        Menu menu_3 = new Menu(mntmExtras);
-        mntmExtras.setMenu(menu_3);
-
-        MenuItem mntmCustomQuestions = new MenuItem(menu_3, SWT.NONE);
-        mntmCustomQuestions.addSelectionListener(new SelectionAdapter()
-        {
-            @Override
-            public void widgetSelected(SelectionEvent e)
-            {
-                System.out.println("Custom questions");
-            }
-        });
-        mntmCustomQuestions.setText("Custom Questions");
-
-        MenuItem mntmLeaderBoard = new MenuItem(menu_3, SWT.NONE);
-        mntmLeaderBoard.addSelectionListener(new SelectionAdapter()
-        {
-            @Override
-            public void widgetSelected(SelectionEvent e)
-            {
-                System.out.println("Leader Board");
-            }
-        });
-        mntmLeaderBoard.setText("Leader Board");
-
-       // startButton();
-       // endlessModeButton();
-       // leaderBoardButton();
-       // customQuestionsButton();
+        // startButton();
+        // endlessModeButton();
+        // leaderBoardButton();
+        // customQuestionsButton();
 
         shell.open();
         // run the event loop as long as the window is open
@@ -194,7 +96,7 @@ public class Program
             public void widgetSelected(SelectionEvent e)
             {
                 // Generate a maze
-                Maze userMaze = new Maze();
+                userGame = new Game();
                 System.out.println("Maze generated");
             }
         });
@@ -236,7 +138,7 @@ public class Program
                 @Override
                 public void widgetSelected(SelectionEvent e)
                 {
-                    //Add custom questions to the database
+                    // Add custom questions to the database
                     System.out.println("Custom Questions in the database");
                 }
             });

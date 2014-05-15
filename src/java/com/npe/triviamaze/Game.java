@@ -7,7 +7,7 @@ public class Game
 
     public Game()
     {
-        this(1, 1);
+        this(1, 1); 
     }
     
     public Game(int rows, int cols)
