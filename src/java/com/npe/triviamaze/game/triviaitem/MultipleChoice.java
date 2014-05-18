@@ -1,4 +1,4 @@
-package com.npe.triviamaze.triviaitem;
+package com.npe.triviamaze.game.triviaitem;
 
 public class MultipleChoice implements TriviaItem
 {

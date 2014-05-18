@@ -1,6 +1,6 @@
 package com.npe.triviamaze.game;
 
-import com.npe.triviamaze.triviaitem.TriviaItem;
+import com.npe.triviamaze.game.triviaitem.TriviaItem;
 
 public class Door
 {
