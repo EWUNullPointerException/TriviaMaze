@@ -15,36 +15,27 @@ public class Program
 {
     private static Shell shell;
     private static Game userGame;
+    private static Menu mainMenu;
+    private static MenuItem gameMenu;
+    private static MenuItem startGameMenuItem;
+    private static MenuItem endlessModeMenuItem;
+    private static MenuItem exitMenuItem;
+    private static MenuItem helpMenu;
+    private static MenuItem howToPlayMenuItem;
+    private static MenuItem aboutMenuItem;
+    private static MenuItem extrasMenu;
+    private static MenuItem customQuestionsMenuItem;
+    private static MenuItem leaderBoardMenuItem;
 
     public static void main(String[] args)
     {
         Display display = new Display();
         shell = new Shell(display);
 
-        // Dan
-        // must be called before setSize is called to make sure
-        // the components are placed correctly for some odd reason.
-        // This makes it almost impossible to set anything relative
-        // to the size of the window so I've moved width and height
-        // to finals
         shell.setSize(418, 384);
         shell.setLayout(new FormLayout());
 
-        Menu menu = new Menu(shell, SWT.BAR);
-        shell.setMenuBar(menu);
-
-        Menu menu_1 = gameMenu(menu);
-        startGame(menu_1);
-        endlessMode(menu_1);
-        exit(menu_1);
-
-        Menu menu_2 = helpMenu(menu);
-        howToPlay(menu_2);
-        aboutGame(menu_2);
-
-        Menu menu_3 = extrasMenu(menu);
-        customQuestions(menu_3);
-        leaderBoard(menu_3);
+        init();
 
         shell.open();
         // run the event loop as long as the window is open
@@ -63,50 +54,45 @@ public class Program
         display.dispose();
     }
 
-    private static Menu gameMenu(Menu menu)
+    private static void init()
     {
-        MenuItem mntmFile = new MenuItem(menu, SWT.CASCADE);
-        mntmFile.setText("Game");
+        mainMenu = new Menu(shell, SWT.BAR);
+        shell.setMenuBar(mainMenu);
 
-        Menu menu_1 = new Menu(mntmFile);
-        mntmFile.setMenu(menu_1);
-        return menu_1;
-    }
+        gameMenu = new MenuItem(mainMenu, SWT.CASCADE);
+        gameMenu.setText("&Game");
 
-    private static void startGame(Menu menu_1)
-    {
-        MenuItem mntmNewGame = new MenuItem(menu_1, SWT.NONE);
-        mntmNewGame.addSelectionListener(new SelectionAdapter()
+        Menu menu_1 = new Menu(gameMenu);
+        gameMenu.setMenu(menu_1);
+
+        // Start normal game
+        startGameMenuItem = new MenuItem(menu_1, SWT.NONE);
+        startGameMenuItem.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                userGame = new Game();
-                System.out.println("Maze generated");
+                // TODO
+                System.out.println("Game started");
             }
         });
-        mntmNewGame.setText("Start Game");
-    }
+        startGameMenuItem.setText("&Start Game");
 
-    private static void endlessMode(Menu menu_1)
-    {
-        MenuItem mntmEndlessMode = new MenuItem(menu_1, SWT.NONE);
-        mntmEndlessMode.addSelectionListener(new SelectionAdapter()
+        // Endless Mode
+        endlessModeMenuItem = new MenuItem(menu_1, SWT.NONE);
+        endlessModeMenuItem.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                // Begin endless mode here
-                System.out.println("Endless mode started");
+                // TODO
+                System.out.println("Endless Mode started");
             }
         });
-        mntmEndlessMode.setText("Endless Mode");
-    }
+        endlessModeMenuItem.setText("&Endless Mode");
 
-    private static void exit(Menu menu_1)
-    {
-        MenuItem mntmExit = new MenuItem(menu_1, SWT.NONE);
-        mntmExit.addSelectionListener(new SelectionAdapter()
+        exitMenuItem = new MenuItem(menu_1, SWT.NONE);
+        exitMenuItem.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
@@ -114,81 +100,66 @@ public class Program
                 shell.dispose();
             }
         });
-        mntmExit.setText("Exit");
-    }
+        exitMenuItem.setText("E&xit");
 
-    private static Menu helpMenu(Menu menu)
-    {
-        MenuItem mntmHelp = new MenuItem(menu, SWT.CASCADE);
-        mntmHelp.setText("Help");
+        helpMenu = new MenuItem(mainMenu, SWT.CASCADE);
+        helpMenu.setText("&Help");
 
-        Menu menu_2 = new Menu(mntmHelp);
-        mntmHelp.setMenu(menu_2);
-        return menu_2;
-    }
+        Menu menu_2 = new Menu(helpMenu);
+        helpMenu.setMenu(menu_2);
 
-    private static void howToPlay(Menu menu_2)
-    {
-        MenuItem mntmHowToPlay = new MenuItem(menu_2, SWT.NONE);
-        mntmHowToPlay.addSelectionListener(new SelectionAdapter()
+        howToPlayMenuItem = new MenuItem(menu_2, SWT.NONE);
+        howToPlayMenuItem.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
+                // TODO
                 System.out.println("How to play");
             }
         });
-        mntmHowToPlay.setText("How To Play");
-    }
+        howToPlayMenuItem.setText("&How To Play");
 
-    private static void aboutGame(Menu menu_2)
-    {
-        MenuItem mntmAbout = new MenuItem(menu_2, SWT.NONE);
-        mntmAbout.addSelectionListener(new SelectionAdapter()
+        aboutMenuItem = new MenuItem(menu_2, SWT.NONE);
+        aboutMenuItem.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
+                // TODO
                 System.out.println("About game");
             }
         });
-        mntmAbout.setText("About");
-    }
+        aboutMenuItem.setText("&About");
 
-    private static Menu extrasMenu(Menu menu)
-    {
-        MenuItem mntmExtras = new MenuItem(menu, SWT.CASCADE);
-        mntmExtras.setText("Extras");
-        Menu menu_3 = new Menu(mntmExtras);
-        mntmExtras.setMenu(menu_3);
-        return menu_3;
-    }
+        extrasMenu = new MenuItem(mainMenu, SWT.CASCADE);
+        extrasMenu.setText("&Extras");
+        Menu menu_3 = new Menu(extrasMenu);
+        extrasMenu.setMenu(menu_3);
 
-    private static void customQuestions(Menu menu_3)
-    {
-        MenuItem mntmCustomQuestions = new MenuItem(menu_3, SWT.NONE);
-        mntmCustomQuestions.addSelectionListener(new SelectionAdapter()
+        customQuestionsMenuItem = new MenuItem(menu_3, SWT.NONE);
+        customQuestionsMenuItem.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                System.out.println("Custom questions");
+                // TODO
+                System.out.println("Custom Questions");
             }
         });
-        mntmCustomQuestions.setText("Custom Questions");
-    }
+        customQuestionsMenuItem.setText("&Custom Questions");
 
-    private static void leaderBoard(Menu menu_3)
-    {
-        MenuItem mntmLeaderBoard = new MenuItem(menu_3, SWT.NONE);
-        mntmLeaderBoard.addSelectionListener(new SelectionAdapter()
+        leaderBoardMenuItem = new MenuItem(menu_3, SWT.NONE);
+        leaderBoardMenuItem.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                System.out.println("Leader Board");
+                //TODO
+                System.out.println("Leader board");
             }
         });
-        mntmLeaderBoard.setText("Leader Board");
+        leaderBoardMenuItem.setText("&Leader Board");
+
     }
 }
