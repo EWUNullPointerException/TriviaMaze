@@ -2,7 +2,7 @@ package com.npe.triviamaze.game;
 
 public class Location
 {
-    int row, col;
+    public int row, col;
 
     public Location(int row, int col)
     {
