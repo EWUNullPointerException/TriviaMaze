@@ -15,6 +15,11 @@ public class Game
         maze = new Maze(rows, cols);
         player = new Player(maze.getStart());
     }
+    
+    public Player getPlayer()
+    {
+        return player;
+    }
 
     public boolean beenWon()
     {
@@ -70,8 +75,8 @@ public class Game
     public boolean move(Direction direction)
     {
         Location loc = player.getLocation();
-        boolean moved = maze.move(loc, direction);
-
+        boolean moved = maze.canMove(loc, direction);
+        
         if(moved)
         {
             player.move(direction);

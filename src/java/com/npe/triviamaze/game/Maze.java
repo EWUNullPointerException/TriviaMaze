@@ -40,19 +40,13 @@ public class Maze
         return new Location(goal);
     }
 
-    protected boolean move(Location from, Direction to)
+    protected boolean canMove(Location loc, Direction to)
     {
+        if (to == Direction.Up && loc.row - 1 < 1) return false;
+        if (to == Direction.Down && loc.row + 1 > rows) return false;
+        if (to == Direction.Left && loc.col - 1 < 1) return false;
+        if (to == Direction.Right && loc.col + 1 > rows) return false;
         
-        return false;
-    }
-
-    protected boolean canMove(Location loc, Direction direction)
-    {
-        if (direction == Direction.Up && loc.row - 1 < 1) return false;
-        if (direction == Direction.Down && loc.row + 1 > rows) return false;
-        if (direction == Direction.Left && loc.col - 1 < 1) return false;
-        if (direction == Direction.Right && loc.col + 1 > rows) return false;
-        
-        return rooms[loc.row][loc.col].isDoorTraversable(direction);
+        return rooms[loc.row][loc.col].isDoorTraversable(to);
     }
 }

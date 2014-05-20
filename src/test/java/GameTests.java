@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.npe.triviamaze.game.Direction;
 import com.npe.triviamaze.game.Game;
+import com.npe.triviamaze.game.Location;
 
 public class GameTests
 {
@@ -39,6 +40,16 @@ public class GameTests
         assertFalse("Cannot move up from start", game.canMove(Direction.Up));
         assertTrue("Can move right", game.canMove(Direction.Right));
         assertTrue("Can move down", game.canMove(Direction.Down));
-        
+    }
+    
+    @Test
+    public void testMove()
+    {
+        Game game = new Game(2, 2);
+        assertTrue("Can move right from start", game.moveRight());
+        assertTrue("Actually moved right", game.getPlayer().getLocation().equals(new Location(1, 2)));
+        assertFalse("Cannot move right again", game.canMoveRight());
+        assertTrue("Can move down", game.moveDown());
+        assertTrue("Have won game", game.beenWon());
     }
 }
