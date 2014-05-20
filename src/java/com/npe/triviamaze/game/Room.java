@@ -21,23 +21,47 @@ public class Room
         this.left = (left == null) ? new Door() : left.getRight();
     }
     
-    private Door getUp()
+    protected Door getUp()
     {
         return up;
     }
     
-    private Door getRight()
+    protected Door getRight()
     {
         return right;
     }
     
-    private Door getDown()
+    protected Door getDown()
     {
         return down;
     }
     
-    private Door getLeft()
+    protected Door getLeft()
     {
         return left;
+    }
+
+    protected Door getDoor(Direction direction)
+    {
+        if (direction == Direction.Up) return up;
+        if (direction == Direction.Down) return down;
+        if (direction == Direction.Left) return left;
+        else return right;
+    }
+
+    public boolean isDoorLocked(Direction direction)
+    {
+        if (direction == Direction.Up) return up == null ? false : up.isLocked();
+        if (direction == Direction.Down) return down == null ? false : down.isLocked();
+        if (direction == Direction.Left) return left == null ? false : left.isLocked();
+        else return right == null ? false : right.isLocked();
+    }
+    
+    public boolean isDoorTraversable(Direction direction)
+    {
+        if (direction == Direction.Up) return up == null ? false : !up.isLocked();
+        if (direction == Direction.Down) return down == null ? false : !down.isLocked();
+        if (direction == Direction.Left) return left == null ? false : !left.isLocked();
+        else return right == null ? false : !right.isLocked();
     }
 }
