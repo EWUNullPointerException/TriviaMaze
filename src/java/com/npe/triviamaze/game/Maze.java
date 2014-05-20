@@ -49,4 +49,9 @@ public class Maze
         
         return rooms[loc.row][loc.col].isDoorTraversable(to);
     }
+    
+    public Room getRoom(int x, int y)
+    {
+        return rooms[y][x];
+    }
 }

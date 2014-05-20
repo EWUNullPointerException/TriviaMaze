@@ -83,4 +83,9 @@ public class Game
         }
         return moved;
     }
+    
+    public Maze getMaze()
+    {
+        return maze;
+    }
 }
