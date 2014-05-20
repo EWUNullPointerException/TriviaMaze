@@ -2,8 +2,8 @@ package com.npe.triviamaze.game;
 
 public class Game
 {
-    private Maze maze;
-    private Player player;
+    private final Maze maze;
+    private final Player player;
 
     public Game()
     {

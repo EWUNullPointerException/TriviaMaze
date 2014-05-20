@@ -2,7 +2,7 @@ package com.npe.triviamaze.game;
 
 public class Maze
 {
-    private Room[][] rooms;
+    private final Room[][] rooms;
     private Location goal;
     private Location start;
 
