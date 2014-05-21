@@ -64,4 +64,12 @@ public class Room
         if (direction == Direction.Left) return left == null ? false : !left.isLocked();
         else return right == null ? false : !right.isLocked();
     }
+    
+    public boolean isDoorOpen(Direction direction)
+    {
+        if (direction == Direction.Up) return up == null ? false : up.isOpen();
+        if (direction == Direction.Down) return down == null ? false : down.isOpen();
+        if (direction == Direction.Left) return left == null ? false : left.isOpen();
+        else return right == null ? false : right.isOpen();
+    }
 }
