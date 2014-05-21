@@ -35,7 +35,7 @@ public class Program
 {
     private static final class GUIDraw implements PaintListener
     {
-       
+
         private GC gfx;
 
         private int roomWidth, roomHeight;
@@ -172,7 +172,7 @@ public class Program
 
     private static Player player;
     private static Maze maze;
-    
+
     public static void main(String[] args)
     {
 
@@ -180,7 +180,6 @@ public class Program
         shell = new Shell(display);
         shell.addKeyListener(new KeyAdapter()
         {
-            
 
             @Override
             public void keyPressed(KeyEvent e)
@@ -211,22 +210,22 @@ public class Program
                     MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
                     dialog.setText("Congratulations!");
                     dialog.setMessage("You win! \n Play again?");
-                    int returnCode = dialog.open(); 
+                    int returnCode = dialog.open();
                     if(returnCode == 64)
                     {
-                        //User hit yes
-                        userGame = new Game(5,5);
+                        // User hit yes
+                        userGame = new Game(5, 5);
                         player = userGame.getPlayer();
                         maze = userGame.getMaze();
                         mazeFrame.redraw();
-                        
+
                     }
                     else
                     {
-                       gameFrame.setVisible(false);
-                       userGame = null;
-                       player = null;
-                       maze = null;
+                        gameFrame.setVisible(false);
+                        userGame = null;
+                        player = null;
+                        maze = null;
                     }
                 }
             }
