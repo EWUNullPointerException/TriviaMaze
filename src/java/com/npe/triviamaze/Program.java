@@ -35,8 +35,7 @@ public class Program
 {
     private static final class GUIDraw implements PaintListener
     {
-        private Maze maze;
-        private Player player;
+       
         private GC gfx;
 
         private int roomWidth, roomHeight;
@@ -171,6 +170,9 @@ public class Program
     private static Color black;
     private static Label lblOptions;
 
+    private static Player player;
+    private static Maze maze;
+    
     public static void main(String[] args)
     {
 
@@ -178,6 +180,8 @@ public class Program
         shell = new Shell(display);
         shell.addKeyListener(new KeyAdapter()
         {
+            
+
             @Override
             public void keyPressed(KeyEvent e)
             {
@@ -210,12 +214,19 @@ public class Program
                     int returnCode = dialog.open(); 
                     if(returnCode == 64)
                     {
-                        //This is the case where they hit yes
-                        System.out.println("New Game");
+                        //User hit yes
+                        userGame = new Game(5,5);
+                        player = userGame.getPlayer();
+                        maze = userGame.getMaze();
+                        mazeFrame.redraw();
+                        
                     }
                     else
                     {
-                       System.out.println("Back to main screen");
+                       gameFrame.setVisible(false);
+                       userGame = null;
+                       player = null;
+                       maze = null;
                     }
                 }
             }
@@ -316,7 +327,7 @@ public class Program
                 MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
                 dialog.setText("Playing Instructions");
                 dialog.setMessage("Use the keyboard arrows to move within the maze. \n Correct answers to trivia questions will unlock doors. \n The goal is to reach the exit, which is the lower right corner.");
-                int returnCode = dialog.open();
+                dialog.open();
             }
         });
         howToPlayMenuItem.setText("&How To Play");
@@ -330,7 +341,7 @@ public class Program
                 MessageBox dialog = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
                 dialog.setText("About");
                 dialog.setMessage("Computer Science Trivia Maze Version 1.0 \n Coded by Stefan Bostain, Stacy Carlson, and Dan Watt");
-                int returnCode = dialog.open();
+                dialog.open();
             }
         });
         aboutMenuItem.setText("&About");
