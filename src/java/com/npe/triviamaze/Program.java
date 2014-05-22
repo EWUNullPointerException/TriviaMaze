@@ -42,6 +42,8 @@ public class Program
         private int xStart, yStart;
         private Color prevFore, prevBack;
 
+        private int vertOffset = 11, horzOffset = 11;
+
         public void paintControl(PaintEvent e)
         {
             if(userGame == null)
@@ -54,7 +56,7 @@ public class Program
 
             storeSettings(e);
 
-            drawBorder();
+            drawBorder(roomWidth * maze.cols, roomHeight * maze.rows);
             drawMaze();
             drawPlayer();
         }
@@ -65,8 +67,8 @@ public class Program
             gfx.setLineWidth(2);
             prevFore = gfx.getForeground();
             prevBack = gfx.getBackground();
-            roomWidth = mazeFrame.getBounds().width / maze.cols;
-            roomHeight = mazeFrame.getBounds().height / maze.rows;
+            roomWidth = (mazeFrame.getBounds().width - horzOffset) / maze.cols;
+            roomHeight = (mazeFrame.getBounds().height - vertOffset) / maze.rows;
             xStart = mazeFrame.getBounds().x;
             yStart = mazeFrame.getBounds().y;
         }
@@ -75,9 +77,9 @@ public class Program
         {
             int offset = 20;
             Location loc = player.getLocation();
-            Rectangle rect = new Rectangle(xStart + (loc.col - 1) * roomWidth + offset / 2, yStart
-                    + (loc.row - 1) * roomHeight + offset / 2, roomWidth - offset, roomHeight
-                    - offset);
+            Rectangle rect = new Rectangle(xStart + (loc.col - 1) * roomWidth + offset / 2,
+            		yStart + (loc.row - 1) * roomHeight + offset / 2, roomWidth - offset,
+            		roomHeight - offset);
             gfx.setBackground(blue);
             gfx.fillRectangle(rect);
             gfx.setBackground(prevBack);
@@ -102,8 +104,10 @@ public class Program
                     else
                         gfx.setForeground(black);
 
-                    int x = xStart + roomWidth * col, y = yStart + roomHeight * (row - 1), x2 = xStart
-                            + roomWidth * col, y2 = yStart + roomHeight * row;
+                    int x = xStart + roomWidth * col,
+                        y = yStart + roomHeight * (row - 1);
+            		int x2 = xStart + roomWidth * col, 
+        		        y2 = yStart + roomHeight * row;
 
                     gfx.drawLine(x, y, x2, y2);
                     gfx.setForeground(prevFore);
@@ -127,20 +131,20 @@ public class Program
             }
         }
 
-        private void drawBorder()
+        private void drawBorder(int width, int height)
         {
             Rectangle bounds = mazeFrame.getBounds();
-            int vertOffset = 11, horzOffset = 11;
             // top line
-            gfx.drawLine(bounds.x, bounds.y, bounds.x + bounds.width, bounds.y);
-            // bottom line
-            gfx.drawLine(bounds.x, bounds.y + bounds.height - vertOffset, bounds.x + bounds.width,
-                    bounds.y + bounds.height - vertOffset);
+            gfx.drawLine(bounds.x, bounds.y, bounds.x + width, bounds.y);
             // left line
-            gfx.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + bounds.height);
+            gfx.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + height);
+            
+            // bottom line
+            //gfx.drawLine(bounds.x, bounds.y + bounds.height - vertOffset, bounds.x + bounds.width,
+            //        bounds.y + bounds.height - vertOffset);
             // right line
-            gfx.drawLine(bounds.x + bounds.width - horzOffset, bounds.y, bounds.x + bounds.width
-                    - horzOffset, bounds.y + bounds.height);
+            //gfx.drawLine(bounds.x + bounds.width - horzOffset, bounds.y, bounds.x + bounds.width
+            //        - horzOffset, bounds.y + bounds.height);
 
         }
     }
