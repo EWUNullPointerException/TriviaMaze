@@ -42,6 +42,8 @@ public class Program
         private int xStart, yStart;
         private Color prevFore, prevBack;
 
+        private int vertOffset = 11, horzOffset = 11;
+
         public void paintControl(PaintEvent e)
         {
             if(userGame == null)
@@ -54,7 +56,7 @@ public class Program
 
             storeSettings(e);
 
-            drawBorder();
+            drawBorder(roomWidth * maze.cols, roomHeight * maze.rows);
             drawMaze();
             drawPlayer();
         }
@@ -65,8 +67,8 @@ public class Program
             gfx.setLineWidth(2);
             prevFore = gfx.getForeground();
             prevBack = gfx.getBackground();
-            roomWidth = mazeFrame.getBounds().width / maze.cols;
-            roomHeight = mazeFrame.getBounds().height / maze.rows;
+            roomWidth = (mazeFrame.getBounds().width - horzOffset) / maze.cols;
+            roomHeight = (mazeFrame.getBounds().height - vertOffset) / maze.rows;
             xStart = mazeFrame.getBounds().x;
             yStart = mazeFrame.getBounds().y;
         }
@@ -127,20 +129,19 @@ public class Program
             }
         }
 
-        private void drawBorder()
+        private void drawBorder(int width, int height)
         {
             Rectangle bounds = mazeFrame.getBounds();
-            int vertOffset = 11, horzOffset = 11;
             // top line
-            gfx.drawLine(bounds.x, bounds.y, bounds.x + bounds.width, bounds.y);
+            gfx.drawLine(bounds.x, bounds.y, bounds.x + width, bounds.y);
             // bottom line
-            gfx.drawLine(bounds.x, bounds.y + bounds.height - vertOffset, bounds.x + bounds.width,
-                    bounds.y + bounds.height - vertOffset);
+            //gfx.drawLine(bounds.x, bounds.y + bounds.height - vertOffset, bounds.x + bounds.width,
+            //        bounds.y + bounds.height - vertOffset);
             // left line
-            gfx.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + bounds.height);
+            gfx.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + height);
             // right line
-            gfx.drawLine(bounds.x + bounds.width - horzOffset, bounds.y, bounds.x + bounds.width
-                    - horzOffset, bounds.y + bounds.height);
+            //gfx.drawLine(bounds.x + bounds.width - horzOffset, bounds.y, bounds.x + bounds.width
+            //        - horzOffset, bounds.y + bounds.height);
 
         }
     }
