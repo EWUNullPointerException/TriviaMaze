@@ -77,9 +77,9 @@ public class Program
         {
             int offset = 20;
             Location loc = player.getLocation();
-            Rectangle rect = new Rectangle(xStart + (loc.col - 1) * roomWidth + offset / 2, yStart
-                    + (loc.row - 1) * roomHeight + offset / 2, roomWidth - offset, roomHeight
-                    - offset);
+            Rectangle rect = new Rectangle(xStart + (loc.col - 1) * roomWidth + offset / 2,
+            		yStart + (loc.row - 1) * roomHeight + offset / 2, roomWidth - offset,
+            		roomHeight - offset);
             gfx.setBackground(blue);
             gfx.fillRectangle(rect);
             gfx.setBackground(prevBack);
@@ -104,8 +104,10 @@ public class Program
                     else
                         gfx.setForeground(black);
 
-                    int x = xStart + roomWidth * col, y = yStart + roomHeight * (row - 1), x2 = xStart
-                            + roomWidth * col, y2 = yStart + roomHeight * row;
+                    int x = xStart + roomWidth * col,
+                        y = yStart + roomHeight * (row - 1);
+            		int x2 = xStart + roomWidth * col, 
+        		        y2 = yStart + roomHeight * row;
 
                     gfx.drawLine(x, y, x2, y2);
                     gfx.setForeground(prevFore);
@@ -134,11 +136,12 @@ public class Program
             Rectangle bounds = mazeFrame.getBounds();
             // top line
             gfx.drawLine(bounds.x, bounds.y, bounds.x + width, bounds.y);
+            // left line
+            gfx.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + height);
+            
             // bottom line
             //gfx.drawLine(bounds.x, bounds.y + bounds.height - vertOffset, bounds.x + bounds.width,
             //        bounds.y + bounds.height - vertOffset);
-            // left line
-            gfx.drawLine(bounds.x, bounds.y, bounds.x, bounds.y + height);
             // right line
             //gfx.drawLine(bounds.x + bounds.width - horzOffset, bounds.y, bounds.x + bounds.width
             //        - horzOffset, bounds.y + bounds.height);
