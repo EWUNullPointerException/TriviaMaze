@@ -1,0 +1,24 @@
+What is the binary equivalent of 27?, 11011
+What is the binary equivalent of 190?, 10111110
+What is the binary equivalent of 40?, 101000
+What is the decimal equivalent of 100?, 4
+What is the decimal equivalent of 10?, 2
+What is the decimal equivalent of 101010?, 42
+What data type is 3?, int
+What data type is true?, boolean
+What data type is 'r'?, char
+What data type is "Hello World!"?, String
+If i=10, what will be displayed with System.out.print(i++);?, 10
+If i=10, what will be displayed with System.out.print(++i);?, 11
+What will be displayed with System.out.print("Hello World!");?, Hello World!
+What are problems that are beyond the control of the user or programmer called?, Errors
+What kind of exceptions cause compilation to fail?, Checked 
+What kind of exceptions are ignored at compilation time?, Runtime
+What is an object whose value can't be changed called? (Strings in Java), Immutable
+String s = "Hello"; What will s.indexOf("s"); return?, -1
+String s = "Hello"; What will s.charAt(0); return?, H
+String s = "WoRlD"; What will s.toUpperCase(); return?, WORLD
+String s = "Java"; What will s.substring(1,2); return?, a
+
+
+
