@@ -286,6 +286,9 @@ public class Program
             public void widgetSelected(SelectionEvent e)
             {
                 userGame = new Game(5, 5);
+                player = userGame.getPlayer();
+                maze = userGame.getMaze();
+                mazeFrame.redraw();
                 gameFrame.setVisible(true);
             }
         });
