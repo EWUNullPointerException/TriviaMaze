@@ -1,0 +1,21 @@
+How do you initialize an int array in Java?, int[] ara = new int[2];, int[] ara = {1, 2};, int[] ara = new int[]{1, 2};, All of the above, 4
+One kilobyte is approximately how many bytes?, 1000, 1024, 2000, 1500, 2
+A programming technique where a derived class extends the functionality of a base class., Inheritance, Extension, Derivation, None of the above, 1
+What is the parent class called in an inheritance relationship?, Upper Class, Higher Class, Super Class, Hero Class, 3
+______ is the level at which the methods of a class work together to support the overall purpose of the class., Coupling, Codependency, Collaboration, Cohesion, 4
+We aim for our programs to be _______., Highly cohesive and tightly coupled, Loosely cohesive and loosely coupled, Highly cohesive and loosely coupled, Loosely cohesive and tightly coupled, 3
+What is NOT a pillar of OOP?, Construction, Abstraction, Inheritance, Polymorphism, 1
+What does UML stand for?, Universal Machine Language, Unified Modeling Language, Universal Modeling Language, United Machine Language, 2
+What modifier means the class can't be instantiated?, public, final, abstract, static, 3
+This field modifier means that it may be modified by asynchronous threads?, final, transient, protected, volatile, 4
+What is NOT a valid constructor modifier?, public, private, final, protected, 3
+If no modifier is specified, what access is granted?, Package, Program, None, Compile Error, 1
+What is the time complexity of insertion sort in the worst case?, O(n^2), O(n), O(logn), O(1), 1
+What is the time complexity of merge sort in the worst case?, O(logn), O(n^2), O(n), O(nlogn), 4
+Why would you NOT want to use a linked list?, Can't add elements, No direct access to elements, Difficult to sort, None of the above, 2
+What is NOT a general type of collection?, List, Set, Array, Map, 3
+What is NOT an example of an interface?, Comparable, Cloneable, Serializable, Constructable, 4
+What is NOT a valid hexadecimal digit?, F, 1, H, 7, 3
+What is a stack?, FIFO, LIFO, FILO, LILO, 2
+What is a queue?, FILO, LILO, LIFO, FIFO, 4
+
