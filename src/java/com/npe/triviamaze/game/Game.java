@@ -2,6 +2,8 @@ package com.npe.triviamaze.game;
 
 import java.util.PriorityQueue;
 
+import com.npe.triviamaze.database.Database;
+
 public class Game
 {
     private final Maze maze;
@@ -16,6 +18,8 @@ public class Game
     {
         maze = new Maze(rows, cols);
         player = new Player(maze.getStart());
+        Database db = new Database();
+        String[][] blah = db.getMultiChoice("CompSci", 3);
     }
 
     public Player getPlayer()
