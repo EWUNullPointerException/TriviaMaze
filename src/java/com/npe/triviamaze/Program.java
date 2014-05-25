@@ -85,6 +85,7 @@ public class Program
                 userGame.move(direction);
                 mazeFrame.redraw();
                 checkGameWon();
+                checkGameLost();
             }
             else
             {
@@ -453,7 +454,6 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                //TODO finish
                 if (dir == null) 
                     return;
                 userGame.answerQuestion(answerTxt.getText(), dir);
@@ -465,6 +465,7 @@ public class Program
                 questionLbl.setText("");
                 shell.setFocus();
                 checkGameWon();
+                checkGameLost();
             }
         });
         submitAnswerBtn.setBounds(0, 132, 160, 25);
@@ -477,11 +478,34 @@ public class Program
     
     private static void checkGameWon()
     {
-        if(userGame.beenWon())
+        if(userGame.isGameWon())
         {
             MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
             dialog.setText("Congratulations!");
             dialog.setMessage("You win! \n Play again?");
+            int returnCode = dialog.open();
+            if(returnCode == SWT.YES)
+            {
+                // User hit yes
+                startGameMenuItem.notifyListeners(SWT.Selection, new Event());
+            }
+            else
+            {
+                gameFrame.setVisible(false);
+                userGame = null;
+                player = null;
+                maze = null;
+            }
+        }
+    }
+    
+    private static void checkGameLost()
+    {
+        if(userGame.isGameOver())
+        {
+            MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
+            dialog.setText("Sorry!");
+            dialog.setMessage("Game Over! \n Play again?");
             int returnCode = dialog.open();
             if(returnCode == SWT.YES)
             {

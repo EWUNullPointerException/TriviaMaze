@@ -92,4 +92,10 @@ public class Maze
     {
         return rooms[row][col];
     }
+    
+    public Room getRoom(Location location)
+    {
+        return rooms[location.row][location.col];
+    }
+    
 }
