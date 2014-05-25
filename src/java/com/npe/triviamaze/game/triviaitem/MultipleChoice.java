@@ -1,6 +1,6 @@
 package com.npe.triviamaze.game.triviaitem;
 
-public class MultipleChoice implements TriviaItem
+public class MultipleChoice extends TriviaItem
 {
 
 }
