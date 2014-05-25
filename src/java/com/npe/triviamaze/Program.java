@@ -1,8 +1,6 @@
 package com.npe.triviamaze;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.PaintEvent;
@@ -21,6 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
@@ -36,6 +35,78 @@ import com.npe.triviamaze.game.Room;
 
 public class Program
 {
+    private static final class KeyPressedEvent extends KeyAdapter implements Listener
+    {
+        @Override
+        public void keyPressed(KeyEvent e)
+        {
+            if(userGame == null)
+                return;
+
+            if(!canMove)
+            {
+                if(e.keyCode == SWT.CR)
+                {
+                    submitAnswerBtn.notifyListeners(SWT.Selection, new Event());
+                }
+                return;
+            }
+
+            Direction direction = null;
+            if(e.keyCode == SWT.ARROW_RIGHT)
+            {
+                direction = Direction.Right;
+            }
+            else if(e.keyCode == SWT.ARROW_DOWN)
+            {
+                direction = Direction.Down;
+            }
+            else if(e.keyCode == SWT.ARROW_LEFT)
+            {
+                direction = Direction.Left;
+            }
+            else if(e.keyCode == SWT.ARROW_UP)
+            {
+                direction = Direction.Up;
+            }
+            else
+            {
+                return;
+            }
+            
+            answerTxt.setText("");
+            
+            if(!userGame.canMove(direction))
+            {
+                return;
+            }
+            if(userGame.directionOpen(direction))
+            {
+                userGame.move(direction);
+                mazeFrame.redraw();
+                checkGameWon();
+            }
+            else
+            {
+                canMove = false;
+                dir = direction;
+                StringBuilder tmp = new StringBuilder();
+                String[] xs = userGame.getQuestion(direction);
+                for(int i = 0; i < xs.length; i++)
+                    tmp.append(xs[i] + "\n");
+                questionLbl.setText(tmp.toString());
+                answerTxt.setFocus();
+            }
+        }
+
+        @Override
+        public void handleEvent(Event event)
+        {
+            KeyEvent e = new KeyEvent(event);
+            keyPressed(e);
+        }
+    }
+
     private static final class GUIDraw implements PaintListener
     {
 
@@ -180,75 +251,14 @@ public class Program
     private static boolean canMove;
     private static Direction dir;
     private static Text answerTxt;
+    private static Button submitAnswerBtn;
 
     public static void main(String[] args)
     {
 
         Display display = new Display();
+        display.addFilter(SWT.KeyDown, new KeyPressedEvent());
         shell = new Shell(display);
-        shell.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent e) {
-                //TODO remove me
-                System.out.println("Shell gained focus");
-            }
-        });
-        shell.addKeyListener(new KeyAdapter()
-        {
-
-            @Override
-            public void keyPressed(KeyEvent e)
-            {
-                if(userGame == null)
-                    return;
-
-                if(!canMove)
-                    return;
-
-                Direction direction = null;
-                if(e.keyCode == SWT.ARROW_RIGHT)
-                {
-                    direction = Direction.Right;
-                }
-                else if(e.keyCode == SWT.ARROW_DOWN)
-                {
-                    direction = Direction.Down;
-                }
-                else if(e.keyCode == SWT.ARROW_LEFT)
-                {
-                    direction = Direction.Left;
-                }
-                else if(e.keyCode == SWT.ARROW_UP)
-                {
-                    direction = Direction.Up;
-                }
-                else
-                {
-                    return;
-                }
-
-                if(!userGame.canMove(direction))
-                {
-                    return;
-                }
-                if(userGame.directionOpen(direction))
-                {
-                    userGame.move(direction);
-                    mazeFrame.redraw();
-                    checkGameWon();
-                }
-                else
-                {
-                    canMove = false;
-                    dir = direction;
-                    StringBuilder tmp = new StringBuilder();
-                    String[] xs = userGame.getQuestion(direction);
-                    for(int i = 0; i < xs.length; i++)
-                        tmp.append(xs[i] + "\n");
-                    questionLbl.setText(tmp.toString());
-                }
-            }
-        });
 
         shell.setSize(608, 497);
         shell.setLayout(new FormLayout());
@@ -437,15 +447,13 @@ public class Program
         fd_answerFrame.bottom = new FormAttachment(100, -123);
         answerFrame.setLayoutData(fd_answerFrame);
 
-        Button submitAnswerBtn = new Button(answerFrame, SWT.NONE);
+        submitAnswerBtn = new Button(answerFrame, SWT.NONE);
         submitAnswerBtn.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
                 //TODO finish
-                boolean tmp = shell.setFocus();
-                System.out.println(tmp);
                 if (dir == null) 
                     return;
                 userGame.answerQuestion(answerTxt.getText(), dir);
@@ -453,6 +461,8 @@ public class Program
                 mazeFrame.redraw();
                 canMove = true;
                 dir = null;
+                answerTxt.setText("");
+                shell.setFocus();
                 checkGameWon();
             }
         });
@@ -461,8 +471,9 @@ public class Program
         
         answerTxt = new Text(answerFrame, SWT.BORDER);
         answerTxt.setBounds(0, 0, 160, 45);
+        
     }
-
+    
     private static void checkGameWon()
     {
         if(userGame.beenWon())

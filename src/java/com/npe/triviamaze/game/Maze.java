@@ -78,28 +78,14 @@ public class Maze
     {
         if(!canMove(loc, to))
             return null;
-        if(to == Direction.Up)
-            return rooms[loc.row][loc.col].getQuestion(Direction.Up);
-        if(to == Direction.Down)
-            return rooms[loc.row][loc.col].getQuestion(Direction.Down);
-        if(to == Direction.Left)
-            return rooms[loc.row][loc.col].getQuestion(Direction.Left);
-        else
-            return rooms[loc.row][loc.col].getQuestion(Direction.Right);
+        return rooms[loc.row][loc.col].getQuestion(to);
     }
 
     protected void answerQuestion(Location loc, Direction to, String answer)
     {
         if(!canMove(loc, to))
             return;
-        if(to == Direction.Up)
-            rooms[loc.row][loc.col].answerQuestion(Direction.Up, answer);
-        else if(to == Direction.Down)
-            rooms[loc.row][loc.col].answerQuestion(Direction.Down, answer);
-        else if(to == Direction.Left)
-            rooms[loc.row][loc.col].answerQuestion(Direction.Left, answer);
-        else
-            rooms[loc.row][loc.col].answerQuestion(Direction.Right, answer);
+        rooms[loc.row][loc.col].answerQuestion(to, answer);
     }
 
     public Room getRoom(int x, int y)
