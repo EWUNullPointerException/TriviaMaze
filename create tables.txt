@@ -5,6 +5,7 @@ CREATE TABLE `sqlite_sequence` (
 
 CREATE TABLE `multiplechoice` (
 	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
+	`question`	TEXT NOT NULL,
 	`option1`	TEXT NOT NULL,
 	`option2`	TEXT NOT NULL,
 	`option3`	TEXT NOT NULL,
@@ -14,6 +15,7 @@ CREATE TABLE `multiplechoice` (
 
 CREATE TABLE `truefalse` (
 	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
+	`question`	TEXT NOT NULL,
 	`option1`	TEXT NOT NULL,
 	`option2`	TEXT NOT NULL,
 	`answer`	TEXT NOT NULL
