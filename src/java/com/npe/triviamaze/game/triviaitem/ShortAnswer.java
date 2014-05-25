@@ -1,6 +1,6 @@
 package com.npe.triviamaze.game.triviaitem;
 
-public class ShortAnswer implements TriviaItem
+public class ShortAnswer extends TriviaItem
 {
 
 }

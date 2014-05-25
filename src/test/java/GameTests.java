@@ -46,10 +46,10 @@ public class GameTests
     public void testMove()
     {
         Game game = new Game(2, 2);
-        assertTrue("Can move right from start", game.moveRight());
+        assertTrue("Can move right from start", game.move(Direction.Right));
         assertTrue("Actually moved right", game.getPlayer().getLocation().equals(new Location(1, 2)));
-        assertFalse("Cannot move right again", game.canMoveRight());
-        assertTrue("Can move down", game.moveDown());
+        assertFalse("Cannot move right again", game.canMove(Direction.Right));
+        assertTrue("Can move down", game.move(Direction.Down));
         assertTrue("Have won game", game.beenWon());
     }
 }
