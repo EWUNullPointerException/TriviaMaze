@@ -162,9 +162,9 @@ public class Program
         private void drawMaze()
         {
             Room r = null;
-            for(int row = 1, col; row <= maze.rows; row++)
+            for(int row = 1; row <= maze.rows; row++)
             {
-                for(col = 1; col <= maze.cols; col++)
+                for(int col = 1; col <= maze.cols; col++)
                 {
                     r = maze.getRoom(row, col);
                     if(r == null)

@@ -24,7 +24,7 @@ public class Maze
         {
             for(int x = 1; x <= cols; x++)
             {
-                rooms[y][x] = new Room(rooms[y - 1][x], rooms[y][x + 1], rooms[y - 1][x],
+                rooms[y][x] = new Room(rooms[y - 1][x], rooms[y][x + 1], rooms[y + 1][x],
                         rooms[y][x - 1]);
             }
         }
@@ -88,8 +88,8 @@ public class Maze
         rooms[loc.row][loc.col].answerQuestion(to, answer);
     }
 
-    public Room getRoom(int x, int y)
+    public Room getRoom(int row, int col)
     {
-        return rooms[y][x];
+        return rooms[row][col];
     }
 }
