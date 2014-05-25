@@ -462,6 +462,7 @@ public class Program
                 canMove = true;
                 dir = null;
                 answerTxt.setText("");
+                questionLbl.setText("");
                 shell.setFocus();
                 checkGameWon();
             }
