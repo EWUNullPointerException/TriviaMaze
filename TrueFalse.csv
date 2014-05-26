@@ -1,0 +1,19 @@
+Hashtables trade space for speed., True, False, 1
+Constructors have a return type., True, False, 2
+String s1 = "Hello" and String s2 = "Goodbye". To test for equality use s1 == s2., True, False, 2
+A programmer is an employee., True, False, 1
+Overloading is when a subclass contains an inherited method with the same name and same parameters., True, False, 2
+Overriding is where one class contains multiple methods with the same name but different parameters., True, False, 2
+Employee e1 = new Programmer() is a valid declaration., True, False, 1
+If you have a try, you must always have a catch and a finally., True, False, 2
+28 % 4 = 7, True, False, 2
+123 % 7 = 4, True, False, 1
+16/5 = 3.2, True, False, 2
+Math.sqrt(8, 2) will find a square root in Java., True, False, 2
+Math.pow(6, 0) will return 1.0., True, False, 1
+The Towers of Hanoi program performs 7 disk moves for 3 disks., True, False, 1
+a = 7 and b = 3 If int value = (a < b) ? a : b; then value = 7., True, False, 2
+A triangle has a point., True, False, 1
+An array's length is set when the array is created and can be changed., True, False, 2
+Any method of the Object class may be invoked on an array., True, False, 1
+You can't make an array of arrays., True, False, 2
