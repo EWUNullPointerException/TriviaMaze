@@ -1,0 +1,43 @@
+import java.io.File;
+import java.sql.*;
+import java.util.Scanner;
+
+public class LoadDatabase
+{
+    public static void main(String args[])
+    {
+        Connection c = null;
+        Statement stmt = null;
+        try
+        {
+            Class.forName("org.sqlite.JDBC");
+            c = DriverManager.getConnection("jdbc:sqlite:Movies.db");
+            c.setAutoCommit(false);
+            System.out.println("Opened database successfully");
+
+            stmt = c.createStatement();
+
+            Scanner fin = new Scanner(new File("MovieMC.csv"));
+            while(fin.hasNext())
+            {
+                String line = fin.nextLine();
+                String[] ara = line.split(", ");
+                
+               
+                 String sql = "INSERT INTO multiplechoice(question, option1, option2, option3, option4, answer) VALUES (" + ara[0] + ", " + ara[1]+", "+ ara[2]+", "+ara[3]+ ", "+ara[4]+ ", "+ ara[5]+");";
+                System.out.println(sql);
+                stmt.executeUpdate(sql);
+            }
+            fin.close();
+            stmt.close();
+            c.commit();
+            c.close();
+        }
+        catch(Exception e)
+        {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Records created successfully");
+    }
+}
