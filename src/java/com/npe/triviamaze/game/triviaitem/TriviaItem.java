@@ -5,6 +5,8 @@ public abstract class TriviaItem
     String correctAnswer;
     String question;
     String[] answers;
+    
+    
 
     public String[] getQuestion()
     {
