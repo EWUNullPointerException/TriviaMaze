@@ -7,24 +7,23 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Database
 {
     private static final String FILE_PATH = "src/java/com/npe/triviamaze/database/";
     private Statement _statement;
-    private Connection _conn;
+
+    // private Connection _conn;
 
     public Database()
     {
         _statement = null;
-        _conn = null;
+        // _conn = null;
     }
 
     /**
-     * Gets 'count', or as many as it has, number of RANDOM multiple choice questions from the category specified
+     * Gets 'count', or as many as it can, number of RANDOM multiple choice questions from the
+     * category specified
      * 
      * @param cat
      *            The category to grab the questions from
@@ -42,7 +41,8 @@ public class Database
     }
 
     /**
-     * Gets 'count', or as many as it has, number of RANDOM true false questions from the category specified
+     * Gets 'count', or as many as it can, number of RANDOM true false questions from the category
+     * specified
      * 
      * @param cat
      *            The category to grab the questions from
@@ -60,7 +60,8 @@ public class Database
     }
 
     /**
-     * Gets 'count', or as many as it has, number of RANDOM short answer questions from the category specified
+     * Gets 'count', or as many as it can, number of RANDOM short answer questions from the category
+     * specified
      * 
      * @param cat
      *            The category to grab the questions from
@@ -77,10 +78,77 @@ public class Database
         return runQuery(cat, sql);
     }
 
+    /**
+     * Grabs ALL questions from the specified category
+     * 
+     * @param cat
+     *            The category to grab all the questions from
+     * @return A 2d array of strings. The first dim is the number of questions. Second dim are the
+     *         questions themselves. The questions returned are in the format [question,
+     *         (option1,...,option4), answer].
+     */
+    public String[][] getAllCatQuestions(String cat)
+    {
+        ResultSet rs = null;
+        ArrayList<String[]> ret = new ArrayList<String[]>();
+
+        String[] queries = new String[] {
+                "SELECT `question`,`option1`,`option2`,`option3`,`option4`,`answer` FROM `multiplechoice`",
+                "SELECT `question`,`option1`,`option2`,`answer` FROM `truefalse`",
+                "SELECT `question`,`answer` FROM `shortanswer`"};
+
+        try
+        {
+            Connection c = openConnection(cat);
+            _statement = c.createStatement();
+
+            for(int i = 0; i < queries.length; i++)
+            {
+                rs = _statement.executeQuery(queries[i]);
+
+                if(rs != null)
+                    ret.addAll(parseResult(rs));
+            }
+
+            closeConnection(c);
+        }
+        catch(Exception e)
+        {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(1);
+        }
+
+        return ret.toArray(new String[0][0]);
+    }
+    
+    /**
+     * Returns ALL questions in the ENTIRE DATABASE. *** WARNING *** FOR EACH CATEGORY SPECIFIED, A DB CONNECTION MUST BE MADE. COULD BECOME VERY COSTLY!
+     * @param cats
+     * An array of categories to grabbed from
+     * @return A 2d array of strings. The first dim is the number of questions. Second dim are the
+     *         questions themselves. The questions returned are in the format [question,
+     *         (option1,...,option4), answer].
+     * 
+     */
+    public String[][] getAllQuestions(String[] cats)
+    {
+        ArrayList<String[]> ret = new ArrayList<String[]>();
+        String[][] grabbed = null;
+        
+        for(int i =0, j; i < cats.length;i++)
+        {
+            grabbed = getAllCatQuestions(cats[i]);
+            for(j = 0; j < grabbed.length; j++)
+                ret.add(grabbed[j]);
+        }
+        
+        return ret.toArray(new String[0][0]);
+    }
+
     private String[][] runQuery(String cat, String sql)
     {
         ResultSet rs = null;
-        String[][] ret = null;
+        ArrayList<String[]> ret = null;
         try
         {
             Connection c = openConnection(cat);
@@ -101,10 +169,10 @@ public class Database
             System.exit(1);
         }
 
-        return ret;
+        return ret.toArray(new String[0][0]);
     }
 
-    private String[][] parseResult(ResultSet rs) throws SQLException
+    private ArrayList<String[]> parseResult(ResultSet rs) throws SQLException
     {
         ArrayList<String[]> ret = new ArrayList<String[]>();
         ResultSetMetaData md = rs.getMetaData();
@@ -121,7 +189,7 @@ public class Database
             ret.add(row);
         }
 
-        return ret.toArray(new String[0][0]);
+        return ret;
     }
 
     private Connection openConnection(String cat) throws ClassNotFoundException, SQLException

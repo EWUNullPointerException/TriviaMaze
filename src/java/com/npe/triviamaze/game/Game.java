@@ -1,8 +1,5 @@
 package com.npe.triviamaze.game;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 
 import com.npe.triviamaze.database.Database;
@@ -22,7 +19,7 @@ public class Game
         maze = new Maze(rows, cols);
         player = new Player(maze.getStart());
         Database db = new Database();
-        String[][] blah = db.getMultiChoice("CompSci", 3);
+        String[][] blah = db.getAllQuestions(new String[]{"CompSci","Movies"});
     }
 
     public Player getPlayer()
