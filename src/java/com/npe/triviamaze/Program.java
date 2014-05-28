@@ -478,6 +478,7 @@ public class Program
     
     private static void checkGameWon()
     {
+        if(userGame == null) return;
         if(userGame.isGameWon())
         {
             MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
@@ -501,6 +502,7 @@ public class Program
     
     private static void checkGameLost()
     {
+        if(userGame == null) return;
         if(userGame.isGameOver())
         {
             MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
