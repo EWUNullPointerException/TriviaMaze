@@ -73,9 +73,9 @@ public class Program
             {
                 return;
             }
-            
+
             answerTxt.setText("");
-            
+
             if(!userGame.canMove(direction))
             {
                 return;
@@ -172,36 +172,32 @@ public class Program
                         continue;
 
                     // Right Door
-                    if(r.isDoorOpen(Direction.Right))
-                        gfx.setForeground(green);
-                    else if(r.isDoorLocked(Direction.Right))
-                        gfx.setForeground(red);
-                    else
-                        gfx.setForeground(black);
-
-                    int x = xStart + roomWidth * col, y = yStart + roomHeight * (row - 1);
-                    int x2 = xStart + roomWidth * col, y2 = yStart + roomHeight * row;
-
-                    gfx.drawLine(x, y, x2, y2);
-                    gfx.setForeground(prevFore);
+                    int x = xStart + roomWidth * col,
+                        y = yStart + roomHeight * (row - 1);
+                    int x2 = xStart + roomWidth * col,
+                        y2 = yStart + roomHeight * row;
+                    drawRoom(r, Direction.Right, x, y, x2, y2);
 
                     // Bottom Door
-                    if(r.isDoorOpen(Direction.Down))
-                        gfx.setForeground(green);
-                    else if(r.isDoorLocked(Direction.Down))
-                        gfx.setForeground(red);
-                    else
-                        gfx.setForeground(black);
-
                     x = xStart + roomWidth * (col - 1);
                     y = yStart + roomHeight * row;
                     x2 = xStart + roomWidth * col;
                     y2 = yStart + roomHeight * row;
-
-                    gfx.drawLine(x, y, x2, y2);
-                    gfx.setForeground(prevFore);
+                    drawRoom(r, Direction.Down, x, y, x2, y2);
                 }
             }
+        }
+
+        private void drawRoom(Room r, Direction d, int x, int y, int x2, int y2)
+        {
+            if(r.isDoorLocked(d))
+                gfx.setForeground(red);
+            else if(!r.isDoorOpen(d))
+                gfx.setForeground(black);
+
+            if(!r.isDoorOpen(d))
+                gfx.drawLine(x, y, x2, y2);
+            gfx.setForeground(prevFore);
         }
 
         private void drawBorder(int width, int height)
@@ -454,7 +450,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                if (dir == null) 
+                if(dir == null)
                     return;
                 userGame.answerQuestion(answerTxt.getText(), dir);
                 userGame.move(dir);
@@ -470,15 +466,16 @@ public class Program
         });
         submitAnswerBtn.setBounds(0, 132, 160, 25);
         submitAnswerBtn.setText("Submit");
-        
+
         answerTxt = new Text(answerFrame, SWT.BORDER);
         answerTxt.setBounds(0, 0, 160, 45);
-        
+
     }
-    
+
     private static void checkGameWon()
     {
-        if(userGame == null) return;
+        if(userGame == null)
+            return;
         if(userGame.isGameWon())
         {
             MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
@@ -499,10 +496,11 @@ public class Program
             }
         }
     }
-    
+
     private static void checkGameLost()
     {
-        if(userGame == null) return;
+        if(userGame == null)
+            return;
         if(userGame.isGameOver())
         {
             MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
