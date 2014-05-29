@@ -24,17 +24,15 @@ public class Game
     {
         Database db = new Database();
         String[][] questions = db.getAllCatQuestions("CompSci");
+        Collections.shuffle(Arrays.asList(questions));
         TriviaItem[] araToRandomize = new TriviaItem[questions.length];
+        questionStack = new Stack<TriviaItem>();
         for(int i = 0; i< questions.length; i++)
         {
             araToRandomize[i] = new TriviaItem(questions[i]);
-        }
-        Collections.shuffle(Arrays.asList(araToRandomize));
-        questionStack = new Stack<TriviaItem>();
-        for(int i = 0; i< araToRandomize.length; i++)
-        {
             questionStack.push(araToRandomize[i]);
         }
+        
         maze = new Maze(rows, cols, questionStack);
         player = new Player(maze.getStart());
     }
