@@ -13,7 +13,7 @@ public class Game
     private final Maze maze;
     private final Player player;
     
-    private Stack<TriviaItem> questionStack; //Added field
+    private Stack<TriviaItem> questionStack; 
 
     public Game()
     {
@@ -25,12 +25,10 @@ public class Game
         Database db = new Database();
         String[][] questions = db.getAllCatQuestions("CompSci");
         Collections.shuffle(Arrays.asList(questions));
-        TriviaItem[] araToRandomize = new TriviaItem[questions.length];
         questionStack = new Stack<TriviaItem>();
         for(int i = 0; i< questions.length; i++)
         {
-            araToRandomize[i] = new TriviaItem(questions[i]);
-            questionStack.push(araToRandomize[i]);
+            questionStack.push(new TriviaItem(questions[i]));
         }
         
         maze = new Maze(rows, cols, questionStack);

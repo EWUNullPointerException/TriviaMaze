@@ -1,19 +1,18 @@
 package com.npe.triviamaze.game.triviaitem;
 
-public class TriviaItem //This was abstract
+public class TriviaItem 
 {
     String correctAnswer;
     String question;
     String[] answers;
     
-    //Added this TriviaItem constructor
     public TriviaItem(String[] ara)
     {
         this.question = ara[0];
         //Short answer
         if(ara.length == 2)
         {
-            answers = new String[]{""};//Without something this throws a null pointer?
+            answers = new String[]{""};
         }
         //True/False
         else if(ara.length == 4)

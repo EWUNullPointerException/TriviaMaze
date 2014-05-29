@@ -11,12 +11,8 @@ public class Maze
     private Location start;
     public final int rows, cols;
 
-    Maze()
-    {
-        this(1, 1, null);//added triviaStack
-    }
-
-    Maze(int rows, int cols, Stack<TriviaItem> questionStack)//added triviaStack
+   
+    Maze(int rows, int cols, Stack<TriviaItem> questionStack)
     {
         this.rows = rows;
         this.cols = cols;
