@@ -1,13 +1,19 @@
 package com.npe.triviamaze.game;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.PriorityQueue;
+import java.util.Stack; //Imported Stack
 
 import com.npe.triviamaze.database.Database;
+import com.npe.triviamaze.game.triviaitem.TriviaItem; //Imported TriviaItem
 
 public class Game
 {
     private final Maze maze;
     private final Player player;
+    
+    private Stack<TriviaItem> questionStack; //Added field
 
     public Game()
     {
@@ -16,10 +22,21 @@ public class Game
 
     public Game(int rows, int cols)
     {
-        maze = new Maze(rows, cols);
-        player = new Player(maze.getStart());
         Database db = new Database();
-        String[][] blah = db.getAllQuestions(new String[]{"CompSci","Movies"});
+        String[][] questions = db.getAllCatQuestions("CompSci");
+        TriviaItem[] araToRandomize = new TriviaItem[questions.length];
+        for(int i = 0; i< questions.length; i++)
+        {
+            araToRandomize[i] = new TriviaItem(questions[i]);
+        }
+        Collections.shuffle(Arrays.asList(araToRandomize));
+        questionStack = new Stack<TriviaItem>();
+        for(int i = 0; i< araToRandomize.length; i++)
+        {
+            questionStack.push(araToRandomize[i]);
+        }
+        maze = new Maze(rows, cols, questionStack);
+        player = new Player(maze.getStart());
     }
 
     public Player getPlayer()
