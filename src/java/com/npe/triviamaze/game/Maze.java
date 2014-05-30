@@ -1,5 +1,9 @@
 package com.npe.triviamaze.game;
 
+import java.util.Stack;
+
+import com.npe.triviamaze.game.triviaitem.TriviaItem;
+
 public class Maze
 {
     private final Room[][] rooms;
@@ -7,12 +11,8 @@ public class Maze
     private Location start;
     public final int rows, cols;
 
-    Maze()
-    {
-        this(1, 1);
-    }
-
-    Maze(int rows, int cols)
+   
+    Maze(int rows, int cols, Stack<TriviaItem> questionStack)
     {
         this.rows = rows;
         this.cols = cols;
@@ -25,7 +25,7 @@ public class Maze
             for(int x = 1; x <= cols; x++)
             {
                 rooms[y][x] = new Room(rooms[y - 1][x], rooms[y][x + 1], rooms[y + 1][x],
-                        rooms[y][x - 1]);
+                        rooms[y][x - 1], questionStack);
             }
         }
     }

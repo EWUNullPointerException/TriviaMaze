@@ -1,7 +1,8 @@
 package com.npe.triviamaze.game;
 
+import java.util.Stack;
+
 import com.npe.triviamaze.game.triviaitem.TriviaItem;
-import com.npe.triviamaze.game.triviaitem.TrueFalse;
 
 public class Door
 {
@@ -9,10 +10,9 @@ public class Door
     private boolean locked;
     private boolean open;
 
-    Door()
+    Door(Stack<TriviaItem> questionStack)
     {
-        // TODO replace with real trivia and new constructor
-        trivia = new TrueFalse();
+        trivia = questionStack.pop(); 
     }
 
     public boolean isLocked()

@@ -1,10 +1,32 @@
 package com.npe.triviamaze.game.triviaitem;
 
-public abstract class TriviaItem
+public class TriviaItem 
 {
     String correctAnswer;
     String question;
     String[] answers;
+    
+    public TriviaItem(String[] ara)
+    {
+        this.question = ara[0];
+        //Short answer
+        if(ara.length == 2)
+        {
+            answers = new String[]{""};
+        }
+        //True/False
+        else if(ara.length == 4)
+        {
+        answers = new String[]{"1. True", "2. False"};
+        }
+        //Multiple Choice
+        else
+        {
+            answers = new String[]{"1. " + ara[1], "2. " + ara[2], "3. " + ara[3], "4. " + ara[4]};
+        }
+        this.correctAnswer = ara[ara.length-1].toLowerCase();//ensure lower case
+    }
+    
 
     public String[] getQuestion()
     {
