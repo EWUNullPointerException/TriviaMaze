@@ -73,9 +73,9 @@ public class Program
             {
                 return;
             }
-            
+
             answerTxt.setText("");
-            
+
             if(!userGame.canMove(direction))
             {
                 return;
@@ -227,12 +227,15 @@ public class Program
     private static Game userGame;
     private static Menu mainMenu;
     private static MenuItem gameMenu;
-    private static MenuItem startGameMenuItem;
+    private static MenuItem startGameMenuCascade;
+    private static MenuItem computerSci;
+    private static MenuItem movies;
     private static MenuItem endlessModeMenuItem;
     private static MenuItem exitMenuItem;
     private static MenuItem helpMenu;
     private static MenuItem howToPlayMenuItem;
     private static MenuItem aboutMenuItem;
+    private static MenuItem sourceMenuItem;
     private static MenuItem extrasMenu;
     private static MenuItem customQuestionsMenuItem;
     private static MenuItem leaderBoardMenuItem;
@@ -241,6 +244,7 @@ public class Program
     private static Composite questionFrame;
     private static Label questionLbl;
     private static Composite answerFrame;
+    private static String dbChoice;
 
     private static Color red;
     private static Color green;
@@ -304,14 +308,21 @@ public class Program
         Menu menu_1 = new Menu(gameMenu);
         gameMenu.setMenu(menu_1);
 
-        // Start normal game
-        startGameMenuItem = new MenuItem(menu_1, SWT.NONE);
-        startGameMenuItem.addSelectionListener(new SelectionAdapter()
+        startGameMenuCascade = new MenuItem(menu_1, SWT.CASCADE);
+        startGameMenuCascade.setText("&Start Game");
+
+        Menu menu = new Menu(startGameMenuCascade);
+        startGameMenuCascade.setMenu(menu);
+
+        computerSci = new MenuItem(menu, SWT.NONE);
+        computerSci.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                userGame = new Game(5, 5);
+                System.out.print("Comp Sci");
+                dbChoice = "CS";
+                userGame = new Game(5, 5, "CompSci");
                 player = userGame.getPlayer();
                 maze = userGame.getMaze();
                 mazeFrame.redraw();
@@ -321,7 +332,27 @@ public class Program
                 dir = null;
             }
         });
-        startGameMenuItem.setText("&Start Game");
+        computerSci.setText("&Computer Science");
+
+        movies = new MenuItem(menu, SWT.NONE);
+        movies.addSelectionListener(new SelectionAdapter()
+        {
+            @Override
+            public void widgetSelected(SelectionEvent e)
+            {
+                System.out.print("Movies");
+                dbChoice = "Movies";
+                userGame = new Game(5, 5, "Movies");
+                player = userGame.getPlayer();
+                maze = userGame.getMaze();
+                mazeFrame.redraw();
+                gameFrame.setVisible(true);
+                canMove = true;
+                questionLbl.setText("");
+                dir = null;
+            }
+        });
+        movies.setText("&Movies");
 
         // Endless Mode
         endlessModeMenuItem = new MenuItem(menu_1, SWT.NONE);
@@ -380,6 +411,20 @@ public class Program
             }
         });
         aboutMenuItem.setText("&About");
+
+        sourceMenuItem = new MenuItem(menu_2, SWT.NONE);
+        sourceMenuItem.addSelectionListener(new SelectionAdapter()
+        {
+            @Override
+            public void widgetSelected(SelectionEvent e)
+            {
+                MessageBox dialog = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
+                dialog.setText("Sources");
+                dialog.setMessage("Building Java Programs: A Back to Basics Approach \n By Stuart Reges and Marty Stepp \n\n Data Structures with Java \n By John R. Hubbard \n\n www.imdb.com");
+                dialog.open();
+            }
+        });
+        sourceMenuItem.setText("&Sources");
 
         extrasMenu = new MenuItem(mainMenu, SWT.CASCADE);
         extrasMenu.setText("&Extras");
@@ -454,7 +499,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                if (dir == null) 
+                if(dir == null)
                     return;
                 userGame.answerQuestion(answerTxt.getText(), dir);
                 userGame.move(dir);
@@ -470,15 +515,16 @@ public class Program
         });
         submitAnswerBtn.setBounds(0, 132, 160, 25);
         submitAnswerBtn.setText("Submit");
-        
+
         answerTxt = new Text(answerFrame, SWT.BORDER);
         answerTxt.setBounds(0, 0, 160, 45);
-        
+
     }
-    
+
     private static void checkGameWon()
     {
-        if(userGame == null) return;
+        if(userGame == null)
+            return;
         if(userGame.isGameWon())
         {
             MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
@@ -488,7 +534,14 @@ public class Program
             if(returnCode == SWT.YES)
             {
                 // User hit yes
-                startGameMenuItem.notifyListeners(SWT.Selection, new Event());
+                if(dbChoice.equals("CS"))
+                {
+                    computerSci.notifyListeners(SWT.Selection, new Event());
+                }
+                else
+                {
+                    movies.notifyListeners(SWT.Selection, new Event());
+                }
             }
             else
             {
@@ -496,13 +549,15 @@ public class Program
                 userGame = null;
                 player = null;
                 maze = null;
+                dbChoice = null;
             }
         }
     }
-    
+
     private static void checkGameLost()
     {
-        if(userGame == null) return;
+        if(userGame == null)
+            return;
         if(userGame.isGameOver())
         {
             MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
@@ -512,7 +567,14 @@ public class Program
             if(returnCode == SWT.YES)
             {
                 // User hit yes
-                startGameMenuItem.notifyListeners(SWT.Selection, new Event());
+                if(dbChoice.equals("CS"))
+                {
+                    computerSci.notifyListeners(SWT.Selection, new Event());
+                }
+                else
+                {
+                    movies.notifyListeners(SWT.Selection, new Event());
+                }
             }
             else
             {
@@ -520,6 +582,7 @@ public class Program
                 userGame = null;
                 player = null;
                 maze = null;
+                dbChoice = null;
             }
         }
     }

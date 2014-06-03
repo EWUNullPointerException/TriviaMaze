@@ -5,32 +5,36 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.PriorityQueue;
+
 import com.npe.triviamaze.database.Database;
-import com.npe.triviamaze.game.triviaitem.TriviaItem; 
+import com.npe.triviamaze.game.triviaitem.TriviaItem;
 
 public class Game
 {
     private final Maze maze;
     private final Player player;
-     
+
     private Deque<TriviaItem> questionDeque;
 
-    public Game()
+    public Game(int rows, int cols, String choice)
     {
-        this(1, 1);
-    }
-
-    public Game(int rows, int cols)
-    {
+        String[][] questions;
         Database db = new Database();
-        String[][] questions = db.getAllCatQuestions("CompSci");
+        if(choice.equals("CompSci"))
+        {
+            questions = db.getAllCatQuestions("CompSci");
+        }
+        else
+        {
+            questions = db.getAllCatQuestions("Movies");
+        }
         Collections.shuffle(Arrays.asList(questions));
         questionDeque = new ArrayDeque<TriviaItem>();
-        for(int i = 0; i< questions.length; i++)
+        for(int i = 0; i < questions.length; i++)
         {
             questionDeque.push(new TriviaItem(questions[i]));
         }
-        
+
         maze = new Maze(rows, cols, questionDeque);
         player = new Player(maze.getStart());
     }
