@@ -15,6 +15,11 @@ public class Game
     private final Player player;
 
     private Deque<TriviaItem> questionDeque;
+    
+    public Game(int rows, int cols)
+    {
+        this(rows, cols, "CompSci");
+    }
 
     public Game(int rows, int cols, String choice)
     {
