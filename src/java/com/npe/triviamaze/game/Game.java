@@ -1,19 +1,19 @@
 package com.npe.triviamaze.game;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.PriorityQueue;
-import java.util.Stack; //Imported Stack
-
 import com.npe.triviamaze.database.Database;
-import com.npe.triviamaze.game.triviaitem.TriviaItem; //Imported TriviaItem
+import com.npe.triviamaze.game.triviaitem.TriviaItem; 
 
 public class Game
 {
     private final Maze maze;
     private final Player player;
-    
-    private Stack<TriviaItem> questionStack; 
+     
+    private Deque<TriviaItem> questionDeque;
 
     public Game()
     {
@@ -25,13 +25,13 @@ public class Game
         Database db = new Database();
         String[][] questions = db.getAllCatQuestions("CompSci");
         Collections.shuffle(Arrays.asList(questions));
-        questionStack = new Stack<TriviaItem>();
+        questionDeque = new ArrayDeque<TriviaItem>();
         for(int i = 0; i< questions.length; i++)
         {
-            questionStack.push(new TriviaItem(questions[i]));
+            questionDeque.push(new TriviaItem(questions[i]));
         }
         
-        maze = new Maze(rows, cols, questionStack);
+        maze = new Maze(rows, cols, questionDeque);
         player = new Player(maze.getStart());
     }
 
