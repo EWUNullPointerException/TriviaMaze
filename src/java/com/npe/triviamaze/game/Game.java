@@ -1,37 +1,46 @@
 package com.npe.triviamaze.game;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.PriorityQueue;
-import java.util.Stack; //Imported Stack
 
 import com.npe.triviamaze.database.Database;
-import com.npe.triviamaze.game.triviaitem.TriviaItem; //Imported TriviaItem
+import com.npe.triviamaze.game.triviaitem.TriviaItem;
 
 public class Game
 {
     private final Maze maze;
     private final Player player;
+
+    private Deque<TriviaItem> questionDeque;
     
-    private Stack<TriviaItem> questionStack; 
-
-    public Game()
-    {
-        this(1, 1);
-    }
-
     public Game(int rows, int cols)
     {
+        this(rows, cols, "CompSci");
+    }
+
+    public Game(int rows, int cols, String choice)
+    {
+        String[][] questions;
         Database db = new Database();
-        String[][] questions = db.getAllCatQuestions("CompSci");
-        Collections.shuffle(Arrays.asList(questions));
-        questionStack = new Stack<TriviaItem>();
-        for(int i = 0; i< questions.length; i++)
+        if(choice.equals("CompSci"))
         {
-            questionStack.push(new TriviaItem(questions[i]));
+            questions = db.getAllCatQuestions("CompSci");
         }
-        
-        maze = new Maze(rows, cols, questionStack);
+        else
+        {
+            questions = db.getAllCatQuestions("Movies");
+        }
+        Collections.shuffle(Arrays.asList(questions));
+        questionDeque = new ArrayDeque<TriviaItem>();
+        for(int i = 0; i < questions.length; i++)
+        {
+            questionDeque.push(new TriviaItem(questions[i]));
+        }
+
+        maze = new Maze(rows, cols, questionDeque);
         player = new Player(maze.getStart());
     }
 

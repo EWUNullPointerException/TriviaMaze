@@ -1,6 +1,7 @@
 package com.npe.triviamaze.game;
 
-import java.util.Stack;
+import java.util.Deque;
+
 
 import com.npe.triviamaze.game.triviaitem.TriviaItem;
 
@@ -16,12 +17,12 @@ public class Room
         // all doors do not exist
     }
 
-    Room(Room up, Room right, Room down, Room left, Stack<TriviaItem> questionStack)
+    Room(Room up, Room right, Room down, Room left, Deque<TriviaItem> questionDeque)
     {
-        this.up = (up == null) ? new Door(questionStack) : up.getDown();
-        this.right = (right == null) ? new Door(questionStack) : right.getLeft();
-        this.down = (down == null) ? new Door(questionStack) : down.getUp();
-        this.left = (left == null) ? new Door(questionStack) : left.getRight();
+        this.up = (up == null) ? new Door(questionDeque) : up.getDown();
+        this.right = (right == null) ? new Door(questionDeque) : right.getLeft();
+        this.down = (down == null) ? new Door(questionDeque) : down.getUp();
+        this.left = (left == null) ? new Door(questionDeque) : left.getRight();
     }
 
     protected Door getUp()

@@ -1,7 +1,4 @@
-
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
@@ -9,13 +6,16 @@ import com.npe.triviamaze.game.Direction;
 import com.npe.triviamaze.game.Game;
 import com.npe.triviamaze.game.Location;
 
+
+
+
 public class GameTests
 {
 
     @Test
     public void testBeenWon()
     {
-        Game game = new Game();
+        Game game = new Game(1, 1);
         assertTrue("Game of 1 room is instantly won", game.isGameWon());
     }
     
@@ -56,7 +56,7 @@ public class GameTests
     @Test
     public void testisGameOver()
     {
-        Game game = new Game(3, 3);
+        Game game = new Game(3, 3, "CompSci");
         game.answerQuestion("2", Direction.Down);
         game.answerQuestion("2", Direction.Right);
         boolean tmp = game.isGameOver();

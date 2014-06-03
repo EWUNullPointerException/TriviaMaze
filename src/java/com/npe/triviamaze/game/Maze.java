@@ -1,6 +1,6 @@
 package com.npe.triviamaze.game;
 
-import java.util.Stack;
+import java.util.Deque;
 
 import com.npe.triviamaze.game.triviaitem.TriviaItem;
 
@@ -12,7 +12,7 @@ public class Maze
     public final int rows, cols;
 
    
-    Maze(int rows, int cols, Stack<TriviaItem> questionStack)
+    Maze(int rows, int cols, Deque<TriviaItem> questionDeque)
     {
         this.rows = rows;
         this.cols = cols;
@@ -25,7 +25,7 @@ public class Maze
             for(int x = 1; x <= cols; x++)
             {
                 rooms[y][x] = new Room(rooms[y - 1][x], rooms[y][x + 1], rooms[y + 1][x],
-                        rooms[y][x - 1], questionStack);
+                        rooms[y][x - 1], questionDeque);
             }
         }
     }
