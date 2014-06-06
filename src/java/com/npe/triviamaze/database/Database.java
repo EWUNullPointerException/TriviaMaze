@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Database
 {
-    private static final String FILE_PATH = "src/java/com/npe/triviamaze/database/";
+    private static final String FILE_PATH = "resources/databases/";
     private Statement _statement;
 
     // private Connection _conn;
