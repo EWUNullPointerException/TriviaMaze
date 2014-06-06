@@ -120,11 +120,13 @@ public class Database
 
         return ret.toArray(new String[0][0]);
     }
-    
+
     /**
-     * Returns ALL questions in the ENTIRE DATABASE. *** WARNING *** FOR EACH CATEGORY SPECIFIED, A DB CONNECTION MUST BE MADE. COULD BECOME VERY COSTLY!
+     * Returns ALL questions in the ENTIRE DATABASE. *** WARNING *** FOR EACH CATEGORY SPECIFIED, A
+     * DB CONNECTION MUST BE MADE. COULD BECOME VERY COSTLY!
+     * 
      * @param cats
-     * An array of categories to grabbed from
+     *            An array of categories to grabbed from
      * @return A 2d array of strings. The first dim is the number of questions. Second dim are the
      *         questions themselves. The questions returned are in the format [question,
      *         (option1,...,option4), answer].
@@ -134,14 +136,14 @@ public class Database
     {
         ArrayList<String[]> ret = new ArrayList<String[]>();
         String[][] grabbed = null;
-        
-        for(int i =0, j; i < cats.length;i++)
+
+        for(int i = 0, j; i < cats.length; i++)
         {
             grabbed = getAllCatQuestions(cats[i]);
             for(j = 0; j < grabbed.length; j++)
                 ret.add(grabbed[j]);
         }
-        
+
         return ret.toArray(new String[0][0]);
     }
 

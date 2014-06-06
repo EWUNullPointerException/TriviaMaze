@@ -26,12 +26,14 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import com.npe.triviamaze.game.AbstractGame;
 import com.npe.triviamaze.game.Direction;
 import com.npe.triviamaze.game.Game;
 import com.npe.triviamaze.game.Location;
 import com.npe.triviamaze.game.Maze;
 import com.npe.triviamaze.game.Player;
 import com.npe.triviamaze.game.Room;
+import com.npe.triviamaze.game.SuddenDeath;
 
 public class Program
 {
@@ -123,7 +125,8 @@ public class Program
         {
             if(userGame == null)
                 return;
-
+            if(suddenDeath)
+                return;
             if(maze == null)
                 maze = userGame.getMaze();
             if(player == null)
@@ -224,13 +227,14 @@ public class Program
     }
 
     private static Shell shell;
-    private static Game userGame;
+    private static AbstractGame userGame;
+    private static boolean suddenDeath;
     private static Menu mainMenu;
     private static MenuItem gameMenu;
     private static MenuItem startGameMenuCascade;
     private static MenuItem computerSci;
     private static MenuItem movies;
-    private static MenuItem endlessModeMenuItem;
+    private static MenuItem suddenDeathMenuItem;
     private static MenuItem exitMenuItem;
     private static MenuItem helpMenu;
     private static MenuItem howToPlayMenuItem;
@@ -330,6 +334,7 @@ public class Program
                 canMove = true;
                 questionLbl.setText("");
                 dir = null;
+                suddenDeath = false;
             }
         });
         computerSci.setText("&Computer Science");
@@ -350,22 +355,30 @@ public class Program
                 canMove = true;
                 questionLbl.setText("");
                 dir = null;
+                suddenDeath = false;
             }
         });
         movies.setText("&Movies");
 
         // Endless Mode
-        endlessModeMenuItem = new MenuItem(menu_1, SWT.NONE);
-        endlessModeMenuItem.addSelectionListener(new SelectionAdapter()
+        suddenDeathMenuItem = new MenuItem(menu_1, SWT.NONE);
+        suddenDeathMenuItem.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                // TODO
-                System.out.println("Endless Mode started");
+                userGame = new SuddenDeath(new String[] {"Movies", "CompSci"});
+                player = userGame.getPlayer();
+                maze = userGame.getMaze();
+                mazeFrame.redraw();
+                gameFrame.setVisible(true);
+                canMove = true;
+                questionLbl.setText("");
+                dir = null;
+                suddenDeath = true;
             }
         });
-        endlessModeMenuItem.setText("&Endless Mode");
+        suddenDeathMenuItem.setText("&Sudden Death Mode");
 
         exitMenuItem = new MenuItem(menu_1, SWT.NONE);
         exitMenuItem.addSelectionListener(new SelectionAdapter()
@@ -520,6 +533,23 @@ public class Program
         answerTxt.setBounds(0, 0, 160, 45);
 
     }
+    
+    private static void updateLeaderboard()
+    {
+        InputDialog dialog = new InputDialog(shell);
+        dialog.setText("Leaderboard");
+        dialog.setMessage("Please enter your initials. Any more than 3 letters will be truncated.");
+        String initials = dialog.open();
+        if(initials == null)
+            return;
+        
+        initials = initials.toUpperCase();
+        if(initials.length() > 3)
+            initials = initials.substring(0, 3);
+        
+        //TODO leaderboard file stuff
+        System.out.println(initials + " " + userGame.getScore());
+    }
 
     private static void checkGameWon()
     {
@@ -527,14 +557,22 @@ public class Program
             return;
         if(userGame.isGameWon())
         {
+            if(suddenDeath)
+            {
+                updateLeaderboard();
+            }
             MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
             dialog.setText("Congratulations!");
             dialog.setMessage("You win! \n Play again?");
             int returnCode = dialog.open();
             if(returnCode == SWT.YES)
             {
+                if(suddenDeath)
+                {
+                    suddenDeathMenuItem.notifyListeners(SWT.Selection, new Event());
+                }
                 // User hit yes
-                if(dbChoice.equals("CS"))
+                else if(dbChoice.equals("CS"))
                 {
                     computerSci.notifyListeners(SWT.Selection, new Event());
                 }
@@ -560,14 +598,22 @@ public class Program
             return;
         if(userGame.isGameOver())
         {
+            if(suddenDeath)
+            {
+                updateLeaderboard();
+            }
             MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
             dialog.setText("Sorry!");
             dialog.setMessage("Game Over! \n Play again?");
             int returnCode = dialog.open();
             if(returnCode == SWT.YES)
             {
+                if(suddenDeath)
+                {
+                    suddenDeathMenuItem.notifyListeners(SWT.Selection, new Event());
+                }
                 // User hit yes
-                if(dbChoice.equals("CS"))
+                else if(dbChoice.equals("CS"))
                 {
                     computerSci.notifyListeners(SWT.Selection, new Event());
                 }

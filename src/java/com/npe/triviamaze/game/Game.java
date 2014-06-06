@@ -9,13 +9,12 @@ import java.util.PriorityQueue;
 import com.npe.triviamaze.database.Database;
 import com.npe.triviamaze.game.triviaitem.TriviaItem;
 
-public class Game
+public class Game extends AbstractGame
 {
     private final Maze maze;
-    private final Player player;
 
     private Deque<TriviaItem> questionDeque;
-    
+
     public Game(int rows, int cols)
     {
         this(rows, cols, "CompSci");
@@ -158,6 +157,12 @@ public class Game
             }
         }
         return lost;
+    }
+    
+    @Override
+    public int getScore()
+    {
+        return 0;
     }
 
     private static class Node implements Comparable<Node>

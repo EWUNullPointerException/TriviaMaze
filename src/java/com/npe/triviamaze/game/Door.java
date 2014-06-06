@@ -1,6 +1,7 @@
 package com.npe.triviamaze.game;
 
 import java.util.Deque;
+
 import com.npe.triviamaze.game.triviaitem.TriviaItem;
 
 public class Door
@@ -11,7 +12,7 @@ public class Door
 
     Door(Deque<TriviaItem> questionDeque)
     {
-        trivia = questionDeque.pop(); 
+        trivia = questionDeque.pop();
     }
 
     public boolean isLocked()
