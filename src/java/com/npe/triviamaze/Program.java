@@ -469,28 +469,28 @@ public class Program
         fd_questionFrame.left = new FormAttachment(100, -170);
         fd_questionFrame.right = new FormAttachment(100, -10);
         fd_questionFrame.top = new FormAttachment(0, 10);
-        fd_questionFrame.bottom = new FormAttachment(0, 133);
         questionFrame.setLayoutData(fd_questionFrame);
 
         questionLbl = new Label(questionFrame, SWT.WRAP | SWT.HORIZONTAL);
         questionLbl.setLocation(0, 0);
-        questionLbl.setSize(160, 123);
+        questionLbl.setSize(160, 236);
 
         mazeFrame = new Canvas(gameFrame, SWT.NONE);
         FormData fd_mazeFrame = new FormData();
         fd_mazeFrame.left = new FormAttachment(0, 10);
+        fd_mazeFrame.right = new FormAttachment(questionFrame, -10);
         fd_mazeFrame.top = new FormAttachment(0, 10);
         fd_mazeFrame.bottom = new FormAttachment(100, -10);
-        fd_mazeFrame.right = new FormAttachment(questionFrame, -10);
         mazeFrame.setLayoutData(fd_mazeFrame);
         mazeFrame.addPaintListener(new GUIDraw());
 
         answerFrame = new Composite(gameFrame, SWT.NONE);
+        fd_questionFrame.bottom = new FormAttachment(answerFrame, -6);
         FormData fd_answerFrame = new FormData();
-        fd_answerFrame.top = new FormAttachment(questionFrame, 6);
-        fd_answerFrame.left = new FormAttachment(questionFrame, 0, SWT.LEFT);
+        fd_answerFrame.top = new FormAttachment(0, 252);
+        fd_answerFrame.bottom = new FormAttachment(100, -10);
+        fd_answerFrame.left = new FormAttachment(mazeFrame, 10);
         fd_answerFrame.right = new FormAttachment(100, -10);
-        fd_answerFrame.bottom = new FormAttachment(100, -123);
         answerFrame.setLayoutData(fd_answerFrame);
 
         submitAnswerBtn = new Button(answerFrame, SWT.NONE);
