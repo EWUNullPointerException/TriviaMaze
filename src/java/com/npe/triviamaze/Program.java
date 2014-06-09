@@ -320,7 +320,6 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                System.out.print("Comp Sci");
                 dbChoice = "CS";
                 userGame = new Game(5, 5, "CompSci");
                 player = userGame.getPlayer();
@@ -340,7 +339,6 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                System.out.print("Movies");
                 dbChoice = "Movies";
                 userGame = new Game(5, 5, "Movies");
                 player = userGame.getPlayer();
