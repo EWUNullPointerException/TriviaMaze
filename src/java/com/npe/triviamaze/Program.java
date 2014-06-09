@@ -418,7 +418,7 @@ public class Program
             {
                 MessageBox dialog = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
                 dialog.setText("Sources");
-                dialog.setMessage("Building Java Programs: A Back to Basics Approach \n By Stuart Reges and Marty Stepp \n\n Data Structures with Java \n By John R. Hubbard \n\n www.imdb.com");
+                dialog.setMessage("Building Java Programs: A Back to Basics Approach \n By Stuart Reges and Marty Stepp \n\n Data Structures with Java \n By John R. Hubbard \n\n www.imdb.com\n\n All attempts for accuracy have been made but errors still may persist.");
                 dialog.open();
             }
         });
