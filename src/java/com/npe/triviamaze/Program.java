@@ -133,6 +133,7 @@ public class Program
 
             drawBorder(roomWidth * maze.cols, roomHeight * maze.rows);
             drawMaze();
+            drawGoal();
             drawPlayer();
         }
 
@@ -156,6 +157,17 @@ public class Program
                     + (loc.row - 1) * roomHeight + offset / 2, roomWidth - offset, roomHeight
                     - offset);
             gfx.setBackground(blue);
+            gfx.fillRectangle(rect);
+            gfx.setBackground(prevBack);
+        }
+        
+        private void drawGoal()
+        {
+            int offset = 20;
+            Rectangle rect = new Rectangle(xStart + (maze.rows - 1) * roomWidth + offset / 2,
+                                           yStart + (maze.cols - 1) * roomHeight + offset / 2,
+                                           roomWidth - offset, roomHeight - offset);
+            gfx.setBackground(yellow);
             gfx.fillRectangle(rect);
             gfx.setBackground(prevBack);
         }
@@ -223,7 +235,7 @@ public class Program
         }
     }
 
-    private static Shell shell;
+    private static Shell shlTriviaMaze;
     private static Game userGame;
     private static Menu mainMenu;
     private static MenuItem gameMenu;
@@ -250,6 +262,7 @@ public class Program
     private static Color green;
     private static Color blue;
     private static Color black;
+    private static Color yellow;
 
     private static Player player;
     private static Maze maze;
@@ -263,18 +276,19 @@ public class Program
 
         Display display = new Display();
         display.addFilter(SWT.KeyDown, new KeyPressedEvent());
-        shell = new Shell(display);
+        shlTriviaMaze = new Shell(display);
+        shlTriviaMaze.setText("Trivia Maze");
 
-        shell.setSize(608, 497);
-        shell.setLayout(new FormLayout());
+        shlTriviaMaze.setSize(608, 497);
+        shlTriviaMaze.setLayout(new FormLayout());
 
         setColors(display);
         init();
         gameFrame.setVisible(false);
 
-        shell.open();
+        shlTriviaMaze.open();
         // run the event loop as long as the window is open
-        while(!shell.isDisposed())
+        while(!shlTriviaMaze.isDisposed())
         {
             // read the next OS event queue and transfer it to a SWT event
             if(!display.readAndDispatch())
@@ -295,12 +309,13 @@ public class Program
         green = d.getSystemColor(SWT.COLOR_GREEN);
         blue = d.getSystemColor(SWT.COLOR_BLUE);
         black = d.getSystemColor(SWT.COLOR_BLACK);
+        yellow = d.getSystemColor(SWT.COLOR_YELLOW);
     }
 
     private static void init()
     {
-        mainMenu = new Menu(shell, SWT.BAR);
-        shell.setMenuBar(mainMenu);
+        mainMenu = new Menu(shlTriviaMaze, SWT.BAR);
+        shlTriviaMaze.setMenuBar(mainMenu);
 
         gameMenu = new MenuItem(mainMenu, SWT.CASCADE);
         gameMenu.setText("&Game");
@@ -371,7 +386,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                shell.dispose();
+                shlTriviaMaze.dispose();
             }
         });
         exitMenuItem.setText("E&xit");
@@ -388,7 +403,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
+                MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_QUESTION | SWT.OK);
                 dialog.setText("Playing Instructions");
                 dialog.setMessage("Use the keyboard arrows to move within the maze. \n Correct answers to trivia questions will unlock doors. \n The goal is to reach the exit, which is the lower right corner.");
                 dialog.open();
@@ -402,7 +417,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                MessageBox dialog = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
+                MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_INFORMATION | SWT.OK);
                 dialog.setText("About");
                 dialog.setMessage("Computer Science Trivia Maze Version 1.0 \n Coded by Stefan Bostain, Stacy Carlson, and Dan Watt");
                 dialog.open();
@@ -416,7 +431,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                MessageBox dialog = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
+                MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_INFORMATION | SWT.OK);
                 dialog.setText("Sources");
                 dialog.setMessage("Building Java Programs: A Back to Basics Approach \n By Stuart Reges and Marty Stepp \n\n Data Structures with Java \n By John R. Hubbard \n\n www.imdb.com\n\n All attempts for accuracy have been made but errors still may persist.");
                 dialog.open();
@@ -453,7 +468,7 @@ public class Program
         });
         leaderBoardMenuItem.setText("&Leader Board");
 
-        gameFrame = new Composite(shell, SWT.NONE);
+        gameFrame = new Composite(shlTriviaMaze, SWT.NONE);
         gameFrame.setLayout(new FormLayout());
         FormData fd_gameFrame = new FormData();
         fd_gameFrame.top = new FormAttachment(0, 10);
@@ -506,7 +521,7 @@ public class Program
                 dir = null;
                 answerTxt.setText("");
                 questionLbl.setText("");
-                shell.setFocus();
+                shlTriviaMaze.setFocus();
                 checkGameWon();
                 checkGameLost();
             }
@@ -525,7 +540,7 @@ public class Program
             return;
         if(userGame.isGameWon())
         {
-            MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
+            MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_WARNING | SWT.NO | SWT.YES);
             dialog.setText("Congratulations!");
             dialog.setMessage("You win! \n Play again?");
             int returnCode = dialog.open();
@@ -558,7 +573,7 @@ public class Program
             return;
         if(userGame.isGameOver())
         {
-            MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
+            MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_WARNING | SWT.NO | SWT.YES);
             dialog.setText("Sorry!");
             dialog.setMessage("Game Over! \n Play again?");
             int returnCode = dialog.open();
