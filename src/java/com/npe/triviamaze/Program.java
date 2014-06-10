@@ -277,7 +277,7 @@ public class Program
         Display display = new Display();
         display.addFilter(SWT.KeyDown, new KeyPressedEvent());
         shlTriviaMaze = new Shell(display);
-        shlTriviaMaze.setText("Trivia Maze");
+        shlTriviaMaze.setText("Study & Play Trivia Maze");
 
         shlTriviaMaze.setSize(608, 497);
         shlTriviaMaze.setLayout(new FormLayout());
