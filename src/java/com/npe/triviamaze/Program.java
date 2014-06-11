@@ -146,6 +146,7 @@ public class Program
 
             drawBorder(roomWidth * maze.cols, roomHeight * maze.rows);
             drawMaze();
+            drawGoal();
             drawPlayer();
         }
 
@@ -169,6 +170,17 @@ public class Program
                     + (loc.row - 1) * roomHeight + offset / 2, roomWidth - offset, roomHeight
                     - offset);
             gfx.setBackground(blue);
+            gfx.fillRectangle(rect);
+            gfx.setBackground(prevBack);
+        }
+        
+        private void drawGoal()
+        {
+            int offset = 20;
+            Rectangle rect = new Rectangle(xStart + (maze.rows - 1) * roomWidth + offset / 2,
+                                           yStart + (maze.cols - 1) * roomHeight + offset / 2,
+                                           roomWidth - offset, roomHeight - offset);
+            gfx.setBackground(yellow);
             gfx.fillRectangle(rect);
             gfx.setBackground(prevBack);
         }
@@ -265,6 +277,7 @@ public class Program
     private static Color green;
     private static Color blue;
     private static Color black;
+    private static Color yellow;
 
     private static Player player;
     private static Maze maze;
@@ -279,6 +292,7 @@ public class Program
         Display display = new Display();
         display.addFilter(SWT.KeyDown, new KeyPressedEvent());
         shell = new Shell(display);
+        shell.setText("Study & Play Trivia Maze");
 
         shell.setSize(608, 497);
         shell.setLayout(new FormLayout());
@@ -310,6 +324,7 @@ public class Program
         green = d.getSystemColor(SWT.COLOR_GREEN);
         blue = d.getSystemColor(SWT.COLOR_BLUE);
         black = d.getSystemColor(SWT.COLOR_BLACK);
+        yellow = d.getSystemColor(SWT.COLOR_YELLOW);
     }
 
     private static void init()
@@ -335,7 +350,6 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                System.out.print("Comp Sci");
                 dbChoice = "CS";
                 userGame = new Game(5, 5, "CompSci");
                 player = userGame.getPlayer();
@@ -356,7 +370,6 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                System.out.print("Movies");
                 dbChoice = "Movies";
                 userGame = new Game(5, 5, "Movies");
                 player = userGame.getPlayer();
@@ -447,7 +460,7 @@ public class Program
             {
                 MessageBox dialog = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
                 dialog.setText("Sources");
-                dialog.setMessage("Building Java Programs: A Back to Basics Approach \n By Stuart Reges and Marty Stepp \n\n Data Structures with Java \n By John R. Hubbard \n\n www.imdb.com");
+                dialog.setMessage("Building Java Programs: A Back to Basics Approach \n By Stuart Reges and Marty Stepp \n\n Data Structures with Java \n By John R. Hubbard \n\n www.imdb.com\n\n All attempts for accuracy have been made but errors still may persist.");
                 dialog.open();
             }
         });
