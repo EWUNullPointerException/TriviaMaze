@@ -263,7 +263,6 @@ public class Program
     private static MenuItem aboutMenuItem;
     private static MenuItem sourceMenuItem;
     private static MenuItem extrasMenu;
-    private static MenuItem customQuestionsMenuItem;
     private static MenuItem leaderBoardMenuItem;
     private static Composite gameFrame;
     private static Canvas mazeFrame;
@@ -432,7 +431,7 @@ public class Program
             {
                 MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
                 dialog.setText("Playing Instructions");
-                dialog.setMessage("Use the keyboard arrows to move within the maze. \n Correct answers to trivia questions will unlock doors. \n The goal is to reach the exit, which is the lower right corner.");
+                dialog.setMessage("Standard Game Play\nUse the keyboard arrows to move within the maze. \n Correct answers to trivia questions will unlock doors. \n The goal is to reach the exit, which is the lower right corner.\n\nSudden Death Mode\nUse the keyboard arrows to view the questions.");
                 dialog.open();
             }
         });
@@ -470,18 +469,6 @@ public class Program
         extrasMenu.setText("&Extras");
         Menu menu_3 = new Menu(extrasMenu);
         extrasMenu.setMenu(menu_3);
-
-        customQuestionsMenuItem = new MenuItem(menu_3, SWT.NONE);
-        customQuestionsMenuItem.addSelectionListener(new SelectionAdapter()
-        {
-            @Override
-            public void widgetSelected(SelectionEvent e)
-            {
-                // TODO
-                System.out.println("Custom Questions");
-            }
-        });
-        customQuestionsMenuItem.setText("&Custom Questions");
 
         leaderBoardMenuItem = new MenuItem(menu_3, SWT.NONE);
         leaderBoardMenuItem.addSelectionListener(new SelectionAdapter()
