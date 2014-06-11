@@ -1,5 +1,15 @@
 package com.npe.triviamaze;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -249,6 +259,7 @@ public class Program
     private static Label questionLbl;
     private static Composite answerFrame;
     private static String dbChoice;
+    private static final String leaderboardFile = "resources/leaderboard.dat";
 
     private static Color red;
     private static Color green;
@@ -378,7 +389,7 @@ public class Program
                 suddenDeath = true;
             }
         });
-        suddenDeathMenuItem.setText("&Sudden Death Mode");
+        suddenDeathMenuItem.setText("S&udden Death Mode");
 
         exitMenuItem = new MenuItem(menu_1, SWT.NONE);
         exitMenuItem.addSelectionListener(new SelectionAdapter()
@@ -463,7 +474,26 @@ public class Program
             public void widgetSelected(SelectionEvent e)
             {
                 // TODO
-                System.out.println("Leader board");
+                try(Scanner fin = new Scanner(new BufferedReader(new FileReader(leaderboardFile))))
+                {
+                    StringBuilder leaderboard = new StringBuilder();
+                    while(fin.hasNext())
+                    {
+                        leaderboard.append(fin.next() + "\t\t\t" + fin.next()
+                                + System.lineSeparator());
+                    }
+                    MessageBox dialog = new MessageBox(shell);
+                    dialog.setText("Leaderboard");
+                    dialog.setMessage(leaderboard.toString());
+                    dialog.open();
+                }
+                catch(IOException ex)
+                {
+                    MessageBox dialog = new MessageBox(shell);
+                    dialog.setText("Error");
+                    dialog.setMessage("Could not open the leaderboard");
+                    dialog.open();
+                }
             }
         });
         leaderBoardMenuItem.setText("&Leader Board");
@@ -533,7 +563,7 @@ public class Program
         answerTxt.setBounds(0, 0, 160, 45);
 
     }
-    
+
     private static void updateLeaderboard()
     {
         InputDialog dialog = new InputDialog(shell);
@@ -542,13 +572,84 @@ public class Program
         String initials = dialog.open();
         if(initials == null)
             return;
-        
+
         initials = initials.toUpperCase();
+        initials = initials.replaceAll("\\s", "");
         if(initials.length() > 3)
             initials = initials.substring(0, 3);
-        
-        //TODO leaderboard file stuff
-        System.out.println(initials + " " + userGame.getScore());
+
+        class Leaderboard implements Comparable<Leaderboard>
+        {
+            String initials;
+            int score;
+
+            Leaderboard(String[] s)
+            {
+                initials = s[0];
+                score = Integer.parseInt(s[1]);
+            }
+
+            @Override
+            public String toString()
+            {
+                return initials + " " + score;
+            }
+
+            // Returns them in Desc order
+            @Override
+            public int compareTo(Leaderboard that)
+            {
+                return -(score - that.score);
+            }
+        }
+        boolean ok = false;
+        ArrayList<Leaderboard> leaderboardValues = new ArrayList<>();
+        String s;
+        try(BufferedReader bin = new BufferedReader(new FileReader(leaderboardFile)))
+        {
+            while((s = bin.readLine()) != null)
+            {
+                leaderboardValues.add(new Leaderboard(s.split(" ")));
+            }
+            if(leaderboardValues.size() != 10)
+                ok = true;
+            else
+            {
+                Collections.sort(leaderboardValues);
+                if(userGame.getScore() > leaderboardValues.get(9).score)
+                    ok = true;
+                else
+                    ok = false;
+            }
+        }
+        catch(IOException e)
+        {
+            ok = true;
+        }
+
+        if(ok)
+        {
+            try(PrintWriter bout = new PrintWriter(new BufferedWriter(new FileWriter(
+                    leaderboardFile))))
+            {
+                if(leaderboardValues.size() == 10)
+                    leaderboardValues.remove(9);
+
+                leaderboardValues.add(new Leaderboard(new String[] {initials,
+                        userGame.getScore() + ""}));
+                Collections.sort(leaderboardValues);
+                for(int i = 0; i < leaderboardValues.size(); i++)
+                {
+                    bout.println(leaderboardValues.get(i).initials + " "
+                            + leaderboardValues.get(i).score);
+                }
+            }
+            catch(IOException e)
+            {
+                System.out.println("Failed to write to leaderboard");
+                e.printStackTrace();
+            }
+        }
     }
 
     private static void checkGameWon()

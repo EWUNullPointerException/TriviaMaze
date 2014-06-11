@@ -158,7 +158,7 @@ public class Game extends AbstractGame
         }
         return lost;
     }
-    
+
     @Override
     public int getScore()
     {
