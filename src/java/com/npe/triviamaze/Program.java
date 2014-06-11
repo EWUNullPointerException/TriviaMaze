@@ -1,5 +1,15 @@
 package com.npe.triviamaze;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -26,12 +36,14 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import com.npe.triviamaze.game.AbstractGame;
 import com.npe.triviamaze.game.Direction;
 import com.npe.triviamaze.game.Game;
 import com.npe.triviamaze.game.Location;
 import com.npe.triviamaze.game.Maze;
 import com.npe.triviamaze.game.Player;
 import com.npe.triviamaze.game.Room;
+import com.npe.triviamaze.game.SuddenDeath;
 
 public class Program
 {
@@ -123,7 +135,8 @@ public class Program
         {
             if(userGame == null)
                 return;
-
+            if(suddenDeath)
+                return;
             if(maze == null)
                 maze = userGame.getMaze();
             if(player == null)
@@ -235,14 +248,15 @@ public class Program
         }
     }
 
-    private static Shell shlTriviaMaze;
-    private static Game userGame;
+    private static Shell shell;
+    private static AbstractGame userGame;
+    private static boolean suddenDeath;
     private static Menu mainMenu;
     private static MenuItem gameMenu;
     private static MenuItem startGameMenuCascade;
     private static MenuItem computerSci;
     private static MenuItem movies;
-    private static MenuItem endlessModeMenuItem;
+    private static MenuItem suddenDeathMenuItem;
     private static MenuItem exitMenuItem;
     private static MenuItem helpMenu;
     private static MenuItem howToPlayMenuItem;
@@ -257,6 +271,7 @@ public class Program
     private static Label questionLbl;
     private static Composite answerFrame;
     private static String dbChoice;
+    private static final String leaderboardFile = "resources/leaderboard.dat";
 
     private static Color red;
     private static Color green;
@@ -276,19 +291,19 @@ public class Program
 
         Display display = new Display();
         display.addFilter(SWT.KeyDown, new KeyPressedEvent());
-        shlTriviaMaze = new Shell(display);
-        shlTriviaMaze.setText("Study & Play Trivia Maze");
+        shell = new Shell(display);
+        shell.setText("Study & Play Trivia Maze");
 
-        shlTriviaMaze.setSize(608, 497);
-        shlTriviaMaze.setLayout(new FormLayout());
+        shell.setSize(608, 497);
+        shell.setLayout(new FormLayout());
 
         setColors(display);
         init();
         gameFrame.setVisible(false);
 
-        shlTriviaMaze.open();
+        shell.open();
         // run the event loop as long as the window is open
-        while(!shlTriviaMaze.isDisposed())
+        while(!shell.isDisposed())
         {
             // read the next OS event queue and transfer it to a SWT event
             if(!display.readAndDispatch())
@@ -314,8 +329,8 @@ public class Program
 
     private static void init()
     {
-        mainMenu = new Menu(shlTriviaMaze, SWT.BAR);
-        shlTriviaMaze.setMenuBar(mainMenu);
+        mainMenu = new Menu(shell, SWT.BAR);
+        shell.setMenuBar(mainMenu);
 
         gameMenu = new MenuItem(mainMenu, SWT.CASCADE);
         gameMenu.setText("&Game");
@@ -344,6 +359,7 @@ public class Program
                 canMove = true;
                 questionLbl.setText("");
                 dir = null;
+                suddenDeath = false;
             }
         });
         computerSci.setText("&Computer Science");
@@ -363,22 +379,33 @@ public class Program
                 canMove = true;
                 questionLbl.setText("");
                 dir = null;
+                suddenDeath = false;
             }
         });
         movies.setText("&Movies");
 
         // Endless Mode
-        endlessModeMenuItem = new MenuItem(menu_1, SWT.NONE);
-        endlessModeMenuItem.addSelectionListener(new SelectionAdapter()
+        suddenDeathMenuItem = new MenuItem(menu_1, SWT.NONE);
+        suddenDeathMenuItem.addSelectionListener(new SelectionAdapter()
         {
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                // TODO
-                System.out.println("Endless Mode started");
+                userGame = new SuddenDeath(new String[] {"Movies", "CompSci"});
+                player = userGame.getPlayer();
+                maze = userGame.getMaze();
+                mazeFrame.redraw();
+                gameFrame.setVisible(true);
+                canMove = true;
+                questionLbl.setText("");
+                dir = null;
+                suddenDeath = true;
+                Event event = new Event();
+                event.keyCode = SWT.ARROW_DOWN;
+                shell.notifyListeners(SWT.KeyDown, event);
             }
         });
-        endlessModeMenuItem.setText("&Endless Mode");
+        suddenDeathMenuItem.setText("S&udden Death Mode");
 
         exitMenuItem = new MenuItem(menu_1, SWT.NONE);
         exitMenuItem.addSelectionListener(new SelectionAdapter()
@@ -386,7 +413,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                shlTriviaMaze.dispose();
+                shell.dispose();
             }
         });
         exitMenuItem.setText("E&xit");
@@ -403,7 +430,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_QUESTION | SWT.OK);
+                MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
                 dialog.setText("Playing Instructions");
                 dialog.setMessage("Use the keyboard arrows to move within the maze. \n Correct answers to trivia questions will unlock doors. \n The goal is to reach the exit, which is the lower right corner.");
                 dialog.open();
@@ -417,7 +444,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_INFORMATION | SWT.OK);
+                MessageBox dialog = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
                 dialog.setText("About");
                 dialog.setMessage("Computer Science Trivia Maze Version 1.0 \n Coded by Stefan Bostain, Stacy Carlson, and Dan Watt");
                 dialog.open();
@@ -431,7 +458,7 @@ public class Program
             @Override
             public void widgetSelected(SelectionEvent e)
             {
-                MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_INFORMATION | SWT.OK);
+                MessageBox dialog = new MessageBox(shell, SWT.ICON_INFORMATION | SWT.OK);
                 dialog.setText("Sources");
                 dialog.setMessage("Building Java Programs: A Back to Basics Approach \n By Stuart Reges and Marty Stepp \n\n Data Structures with Java \n By John R. Hubbard \n\n www.imdb.com\n\n All attempts for accuracy have been made but errors still may persist.");
                 dialog.open();
@@ -463,12 +490,31 @@ public class Program
             public void widgetSelected(SelectionEvent e)
             {
                 // TODO
-                System.out.println("Leader board");
+                try(Scanner fin = new Scanner(new BufferedReader(new FileReader(leaderboardFile))))
+                {
+                    StringBuilder leaderboard = new StringBuilder();
+                    while(fin.hasNext())
+                    {
+                        leaderboard.append(fin.next() + "\t\t\t" + fin.next()
+                                + System.lineSeparator());
+                    }
+                    MessageBox dialog = new MessageBox(shell);
+                    dialog.setText("Leaderboard");
+                    dialog.setMessage(leaderboard.toString());
+                    dialog.open();
+                }
+                catch(IOException ex)
+                {
+                    MessageBox dialog = new MessageBox(shell);
+                    dialog.setText("Error");
+                    dialog.setMessage("Could not open the leaderboard");
+                    dialog.open();
+                }
             }
         });
         leaderBoardMenuItem.setText("&Leader Board");
 
-        gameFrame = new Composite(shlTriviaMaze, SWT.NONE);
+        gameFrame = new Composite(shell, SWT.NONE);
         gameFrame.setLayout(new FormLayout());
         FormData fd_gameFrame = new FormData();
         fd_gameFrame.top = new FormAttachment(0, 10);
@@ -521,7 +567,7 @@ public class Program
                 dir = null;
                 answerTxt.setText("");
                 questionLbl.setText("");
-                shlTriviaMaze.setFocus();
+                shell.setFocus();
                 checkGameWon();
                 checkGameLost();
             }
@@ -534,20 +580,116 @@ public class Program
 
     }
 
+    private static void updateLeaderboard()
+    {
+        InputDialog dialog = new InputDialog(shell);
+        dialog.setText("Leaderboard");
+        dialog.setMessage("Please enter your initials. Any more than 3 letters will be truncated.");
+        String initials = dialog.open();
+        if(initials == null)
+            return;
+
+        initials = initials.toUpperCase();
+        initials = initials.replaceAll("\\s", "");
+        if(initials.length() > 3)
+            initials = initials.substring(0, 3);
+
+        class Leaderboard implements Comparable<Leaderboard>
+        {
+            String initials;
+            int score;
+
+            Leaderboard(String[] s)
+            {
+                initials = s[0];
+                score = Integer.parseInt(s[1]);
+            }
+
+            @Override
+            public String toString()
+            {
+                return initials + " " + score;
+            }
+
+            // Returns them in Desc order
+            @Override
+            public int compareTo(Leaderboard that)
+            {
+                return -(score - that.score);
+            }
+        }
+        boolean ok = false;
+        ArrayList<Leaderboard> leaderboardValues = new ArrayList<>();
+        String s;
+        try(BufferedReader bin = new BufferedReader(new FileReader(leaderboardFile)))
+        {
+            while((s = bin.readLine()) != null)
+            {
+                leaderboardValues.add(new Leaderboard(s.split(" ")));
+            }
+            if(leaderboardValues.size() != 10)
+                ok = true;
+            else
+            {
+                Collections.sort(leaderboardValues);
+                if(userGame.getScore() > leaderboardValues.get(9).score)
+                    ok = true;
+                else
+                    ok = false;
+            }
+        }
+        catch(IOException e)
+        {
+            ok = true;
+        }
+
+        if(ok)
+        {
+            try(PrintWriter bout = new PrintWriter(new BufferedWriter(new FileWriter(
+                    leaderboardFile))))
+            {
+                if(leaderboardValues.size() == 10)
+                    leaderboardValues.remove(9);
+
+                leaderboardValues.add(new Leaderboard(new String[] {initials,
+                        userGame.getScore() + ""}));
+                Collections.sort(leaderboardValues);
+                for(int i = 0; i < leaderboardValues.size(); i++)
+                {
+                    bout.println(leaderboardValues.get(i).initials + " "
+                            + leaderboardValues.get(i).score);
+                }
+            }
+            catch(IOException e)
+            {
+                System.out.println("Failed to write to leaderboard");
+                e.printStackTrace();
+            }
+        }
+    }
+
     private static void checkGameWon()
     {
         if(userGame == null)
             return;
         if(userGame.isGameWon())
         {
-            MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_WARNING | SWT.NO | SWT.YES);
+            if(suddenDeath)
+            {
+                updateLeaderboard();
+            }
+            MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
             dialog.setText("Congratulations!");
             dialog.setMessage("You win! \n Play again?");
             int returnCode = dialog.open();
             if(returnCode == SWT.YES)
             {
+                if(suddenDeath)
+                {
+                    suddenDeathMenuItem.notifyListeners(SWT.Selection, new Event());
+                }
                 // User hit yes
-                if(dbChoice.equals("CS"))
+                else if(dbChoice.equals("CS"))
                 {
                     computerSci.notifyListeners(SWT.Selection, new Event());
                 }
@@ -573,14 +715,22 @@ public class Program
             return;
         if(userGame.isGameOver())
         {
-            MessageBox dialog = new MessageBox(shlTriviaMaze, SWT.ICON_WARNING | SWT.NO | SWT.YES);
+            if(suddenDeath)
+            {
+                updateLeaderboard();
+            }
+            MessageBox dialog = new MessageBox(shell, SWT.ICON_WARNING | SWT.NO | SWT.YES);
             dialog.setText("Sorry!");
             dialog.setMessage("Game Over! \n Play again?");
             int returnCode = dialog.open();
             if(returnCode == SWT.YES)
             {
+                if(suddenDeath)
+                {
+                    suddenDeathMenuItem.notifyListeners(SWT.Selection, new Event());
+                }
                 // User hit yes
-                if(dbChoice.equals("CS"))
+                else if(dbChoice.equals("CS"))
                 {
                     computerSci.notifyListeners(SWT.Selection, new Event());
                 }

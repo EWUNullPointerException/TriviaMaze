@@ -10,8 +10,17 @@ public class Maze
     private Location goal;
     private Location start;
     public final int rows, cols;
+    
+    protected Maze()
+    {
+        rooms = new Room[3][3];
+        rooms[1][1] = new Room();
+        goal = new Location(1,1);
+        start = new Location(1,1);
+        rows = 1;
+        cols = 1;
+    }
 
-   
     Maze(int rows, int cols, Deque<TriviaItem> questionDeque)
     {
         this.rows = rows;
@@ -53,7 +62,7 @@ public class Maze
 
         return rooms[loc.row][loc.col].isDoorTraversable(to);
     }
-    
+
     protected boolean directionOpen(Location loc, Direction to)
     {
         if(to == Direction.Up && loc.row - 1 < 1)
@@ -92,10 +101,10 @@ public class Maze
     {
         return rooms[row][col];
     }
-    
+
     public Room getRoom(Location location)
     {
         return rooms[location.row][location.col];
     }
-    
+
 }
