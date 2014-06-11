@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>7</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>665</x>
+      <y>364</y>
+      <w>245</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>Room
+--
+--
+#getDoor(Direction direction): Door
++isDoorLocked(Direction direction): boolean
++isDoorTraversable(Direction direction): boolean
++isDoorOpen(Direction direction): boolean
+#getQuestion(Direction to): String[]
+#answerQuestion(Direction to, String answer): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>98</x>
+      <y>406</y>
+      <w>175</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>SuddenDeath
+--
+--
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>630</x>
+      <y>175</y>
+      <w>301</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>Maze
+--
+--
++getStart(): Location
++getGoal(): Location
+#canMove(Location loc, Direction to): boolean
+#directionOpen(Location loc, Direction to): boolean
+#getQuestion(Location loc, Direction to): String[]
+#answerQuestion(Location loc, Direction to, String answer): void
++getRoom(int row, int col): Room
++getRoom(Location location): Room
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>406</x>
+      <y>7</y>
+      <w>217</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>Database
+--
+--
++getMultiChoice(String cat, int count): String[][]
++getTrueFalse(String cat, int count): String[][]
++getShortAnswer(String cat, int count): String[][]
++getAllCatQuestions(String cat): String[][]
++getAllQuestions(String[] cats): String[][]
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>273</x>
+      <y>182</y>
+      <w>231</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>/AbstractGame/
+--
+--
++isGameWon(): boolean
++isGameOver(): boolean
++canMove(Direction to): boolean
++move(Direction to): boolean
++directionOpen(Direction to): boolean
++getQuestion(Direction to): String[]
++answerQuestion(String answer, Direction to): void
++getPlayer(): Player
++getMaze(): Maze
++getScore(): int
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>0</x>
+      <y>217</y>
+      <w>189</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>InputDialog
+--
+--
++getMessage(): String
++setMessage(String message): void
++getInput(): String
++setInput(String input): void
++open(): String
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>707</x>
+      <y>567</y>
+      <w>217</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Door
+--
+--
++isLocked(): boolean
++isOpen(): boolean
+#getQuestion(): String[]
+#answerQuestion(String answer): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>427</x>
+      <y>560</y>
+      <w>217</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>TriviaItem
+--
+--
++TriviaItem(String[] ara): ctor
++getQuestion(): String[]
++answerQuestion(String s): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>630</x>
+      <y>98</y>
+      <w>175</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>Player
+--
+--
++getLocation(): Location
+~move(Direction direction): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>749</x>
+      <y>0</y>
+      <w>168</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>Location
+--
++row, col: int
+--
++Location(int row, int col): ctor
++Location(Location o): ctor
++equals(Object other): boolean
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>14</x>
+      <y>84</y>
+      <w>147</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Program
+--
+--
++main(String[] args): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>427</x>
+      <y>399</y>
+      <w>161</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>Game
+--
+--
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>140</x>
+      <y>98</y>
+      <w>272</w>
+      <h>97</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>21;21;259;21;259;84</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>147</x>
+      <y>336</y>
+      <w>34</w>
+      <h>83</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>21;21;21;70</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>147</x>
+      <y>336</y>
+      <w>244</w>
+      <h>34</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>21;21;231;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>224</x>
+      <y>336</y>
+      <w>300</w>
+      <h>76</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>21;21;287;21;287;63</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>364</x>
+      <y>294</y>
+      <w>34</w>
+      <h>76</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>21;21;21;63</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>63</x>
+      <y>133</y>
+      <w>28</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>21;21;21;84</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>441</x>
+      <y>70</y>
+      <w>34</w>
+      <h>125</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>21;112;21;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>483</x>
+      <y>119</y>
+      <w>160</w>
+      <h>97</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>21;84;147;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>518</x>
+      <y>231</y>
+      <w>125</w>
+      <h>181</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>21;168;112;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>770</x>
+      <y>56</y>
+      <w>69</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>21;42;56;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>756</x>
+      <y>266</y>
+      <w>34</w>
+      <h>111</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=  1..*</panel_attributes>
+    <additional_attributes>21;21;21;98</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>770</x>
+      <y>441</y>
+      <w>34</w>
+      <h>139</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m2=  4</panel_attributes>
+    <additional_attributes>21;21;21;126</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>623</x>
+      <y>581</y>
+      <w>97</w>
+      <h>34</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>84;21;21;21</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>217</x>
+      <y>462</y>
+      <w>34</w>
+      <h>146</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>21;21;21;133</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>217</x>
+      <y>574</y>
+      <w>223</w>
+      <h>34</h>
+    </coordinates>
+    <panel_attributes>m2=1..*</panel_attributes>
+    <additional_attributes>21;21;210;21</additional_attributes>
+  </element>
+</diagram>
