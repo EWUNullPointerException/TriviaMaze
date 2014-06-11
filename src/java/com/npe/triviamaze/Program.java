@@ -387,6 +387,9 @@ public class Program
                 questionLbl.setText("");
                 dir = null;
                 suddenDeath = true;
+                Event event = new Event();
+                event.keyCode = SWT.ARROW_DOWN;
+                shell.notifyListeners(SWT.KeyDown, event);
             }
         });
         suddenDeathMenuItem.setText("S&udden Death Mode");
