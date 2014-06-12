@@ -431,7 +431,7 @@ public class Program
             {
                 MessageBox dialog = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK);
                 dialog.setText("Playing Instructions");
-                dialog.setMessage("Standard Game Play\nUse the keyboard arrows to move within the maze. \n Correct answers to trivia questions will unlock doors. \n The goal is to reach the exit, which is the lower right corner.\n\nSudden Death Mode\nUse the keyboard arrows to view the questions.");
+                dialog.setMessage("Standard Game Play\nUse the keyboard arrows to move within the maze. \n Correct answers to trivia questions will unlock doors. \n The goal is to reach the exit, which is indicated with a yellow square.\n\nSudden Death Mode\nUse the keyboard arrows to view the questions.");
                 dialog.open();
             }
         });
